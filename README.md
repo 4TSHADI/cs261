@@ -4,7 +4,7 @@
 - To just run the flask server use the `./run.sh` command.
 
 # GitHub
-GitHub is a online code repository sharing platform. It is very useful for collaborative development. I suggest you become very familar with the basics you need, all briefly mentioned here. If you need more of a tutorial, the GitHub docs are great: https://docs.github.com/en/get-started/quickstart/hello-world).
+GitHub is a online code repository sharing platform. It is very useful for collaborative development. I suggest you become very familar with the basics you need, all briefly mentioned here. If you need more of a tutorial, https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners.
 <!-- TODO -->
 
 
