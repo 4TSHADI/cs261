@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title%}Login{% endblock %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="static/css/form.css" type="text/css" charset="utf-8">
+{% endblock %}
+
+{% block header %}
+{{super()}}
+{% endblock %}
+
+{% block main%}
+{{super()}}
+
+<h1>Login</h1>
+<p>Login to an account below.</p>
+
+<form id="loginForm" action="/login" method="POST">
+    <input class="textInput" type="text" name="username" id="username" placeholder="Username" required><br><br>
+
+    <input class="textInput" type="password" name="password" id="password" placeholder="Password" required><br><br>
+
+    <input class="btn-primary btn-primary-hover" type="submit" name="login" id="loginbtn" value="Login">
+</form>
+
+{% endblock %}
