@@ -3,6 +3,8 @@
 - Then run `./setup.h` command to initialise the virtual environment, install the given requirements (specified in requiresments.txt) and start the flask server.
 - To just run the flask server use the `./run.sh` command.
 
+- You will need to update the .env file with the Flask app secret key, ask Michael for this.
+
 # GitHub
 GitHub is a online code repository sharing platform. It is very useful for collaborative development. I suggest you become very familar with the basics you need, all briefly mentioned here. If you need more of a tutorial, https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners.
 <!-- TODO -->
