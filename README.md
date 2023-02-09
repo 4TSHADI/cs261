@@ -14,9 +14,13 @@ GitHub is a online version control and code repository sharing platform. It is v
 
 ## Getting started
 First you will need to create an empty local repository on your machine (I highly recommend using the DCS systems for ease of compatibility).
+
 In your terminal, go to your cs261 directory and create a new `groupproject` directory using `mkdir groupproject`.
+
 Then `cd grouproject` to change into that newly created directory.
+
 Then run `git init` - this will initialise an empty git repo in the directory.
+
 Then rename the current branch to main using `git branch -M main`.
 
 It is useful to create a short hand name for the remote repo. You can do this with the following command:
@@ -29,15 +33,22 @@ Rule 1: **NEVER** make changes directly to the main branch. Create a new branch 
 
 Essentially a branch is an alternative version of a code base which you can make changes to, **without** affecting the other branches.
 This is particularly useful for Software Engineering when implementing new features or fixing bugs. You can create a new branch, do what you need, and when you're certain it works as expected you can combine that new modified branch into another branch using a merge.
+
 To list branches use the `git branch -a` command.
+
+
 To create a branch use the `git branch <branchName>` command.
+
 To move to a branch, use the `git checkout <branchName>` command.
+
 Any commits you then make, via `git commit -m "<message>"`, will only affect that branch.
 
 
 ## Making Changes
 In a git repo you must *stage* the changes you make. This is a fancy name for tell git to track a certain file(s).
+
 To do this, use the `git add <file pattern>` command. The `<file pattern>` can be one of many things, an individual filename, a folder or a regex pattern specifying all files/folders to match.
+
 Most commonly, you will need to use the `git add --all`, this stages all files in the git repo which have been changed, excluding the files specified in the `.gitignore` file.
 
 Once the changes are staged, you must then *commit* or save the changes. This is done using the command `git commit -m "<commit message>"`, and will commit all staged changes to the current branch.
