@@ -13,15 +13,52 @@
 {% block main%}
 {{super()}}
 
-<h1>Login</h1>
-<p>Login to an account below.</p>
+<div>
+  <link href="./loginpage.css" rel="stylesheet" />
+  <div>
+    <div class="loginpage-loginpage">
+      <div class="loginpage-frame1"></div>
+      <img
+        src="/playground_assets/rectangle2210-6zzt-1000w.png"
+        alt="Rectangle2210"
+        class="loginpage-rectangle2"
+      />
+      <div class="loginpage-group10">
+        <div class="loginpage-container1">
+          <span class="loginpage-text">
+            <span class="loginpage-text01">Don’t have an account?</span>
+            <span>Register.</span>
+          </span>
+          <span class="loginpage-text03"><span>Forgot Password</span></span>
+          <div class="loginpage-login">
+            <img
+              src="/playground_assets/rectangle73521-48gl-200h.png"
+              alt="Rectangle73521"
+              class="loginpage-rectangle7"
+            />
+            <span class="loginpage-text05"><span>Login</span></span>
+          </div>
+          <div class="loginpage-password">
+            <span class="loginpage-text07"><span>Password</span></span>
+          </div>
+          <div class="loginpage-user-name">
+            <span class="loginpage-text09">
+              <span>User name or Email</span>
+            </span>
+          </div>
+          <div class="loginpage-hello-user">
+            <span class="loginpage-text11">
+              <span>Login with your details</span>
+            </span>
+          </div>
+          <div class="loginpage-h-e-l-l-o">
+            <span class="loginpage-text13"><span>Hello.</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<form id="loginForm" action="/login" method="POST">
-    <input class="textInput" type="text" name="username" id="username" placeholder="Username" required><br><br>
-
-    <input class="textInput" type="password" name="password" id="password" placeholder="Password" required><br><br>
-
-    <input class="btn-primary btn-primary-hover" type="submit" name="login" id="loginbtn" value="Login">
-</form>
 
 {% endblock %}
