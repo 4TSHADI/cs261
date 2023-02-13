@@ -4,6 +4,7 @@
 - To just run the flask server use the `./run.sh` command.
 
 - You will need to update the .env file with the Flask app secret key, ask Michael for this.
+  (For now you can just put: SECRET_KEY=abc where abc is replaced by a random string of your choosing.)
 
 # Git/GitHub
 GitHub is a online version control and code repository sharing platform. It is very useful for collaborative development. I suggest you become very familar with the basics you need, all briefly mentioned here. If you need more of a tutorial, here are some suggested resources:
