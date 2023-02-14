@@ -2,7 +2,7 @@
 {% block title%}Login{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="static/css/login.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="../static/css/login.scss" type="text/scss" charset="utf-8">
 {% endblock %}
 
 {% block header %}
@@ -11,41 +11,28 @@
 
 {% block main%}
 
-<div>
-    <div class="loginpage-loginpage">
-        <div class="loginpage-frame1"></div>
-        <img src="/playground_assets/rectangle2210-6zzt-1000w.png" class="loginpage-rectangle2" />
-        <div class="loginpage-group10">
-            <div class="loginpage-container1">
-                <span class="loginpage-text">
-                    <span class="loginpage-text01">Don’t have an account?</span>
-                    <span>Register.</span>
-                </span>
-                <span class="loginpage-text03"><span>Forgot Password</span></span>
-                <div class="loginpage-login">
-                    <img src="/playground_assets/rectangle73521-48gl-200h.png" class="loginpage-rectangle7" />
-                    <span class="loginpage-text05"><span>Login</span></span>
-                </div>
-                <div class="loginpage-password">
-                    <span class="loginpage-text07"><span>Password</span></span>
-                </div>
-                <div class="loginpage-user-name">
-                    <span class="loginpage-text09">
-                        <span>User name or Email</span>
-                    </span>
-                </div>
-                <div class="loginpage-hello-user">
-                    <span class="loginpage-text11">
-                        <span>Login with your details</span>
-                    </span>
-                </div>
-                <div class="loginpage-h-e-l-l-o">
-                    <span class="loginpage-text13"><span>Hello.</span></span>
-                </div>
-            </div>
+<div class="partial-code flex flex-col bg-[rgb(47,229,178)] relative overflow-hidden min-h-0">
+    <div class="bg-[rgb(30,34,63)] w-[925px] absolute top-0 bottom-[-29px] min-h-0 left-0"></div>
+    <div class="flex flex-col bg-[rgb(234,234,234)] rounded-[20px] w-[43.19%] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.247)] sm:w-[50.33%] xs:w-[57.46%] xxs:w-[64.3%] tn:w-[70.6%] relative grow min-h-0 mt-[213px] mx-auto mb-[194px]">
+      <div class="flex flex-col w-[72.35%] xs:w-[77.72%] xxs:w-[82.3%] tn:w-[86.12%] relative grow min-h-0 mt-[70px] mx-auto mb-[27px]">
+        <div class="flex flex-col w-[46.67%] relative min-h-0 my-0 mx-auto">
+          <h1 class="flex justify-center font-normal text-3xl font-Inter text-black text-center tracking-[0px] w-[81px] lg:text-[24px] lg:text-center sm:text-[20px] xxs:text-[16px] relative min-h-0 min-w-[81px] my-0 mx-auto">Hello.</h1>
+          <h5 class="flex justify-center font-medium text-[15px] leading-[1.2] font-Lato text-[rgb(140,140,140)] text-center tracking-[0px] relative min-h-[33px] mt-7 mx-0 mb-0">Login with your details</h5>
         </div>
+        <div class="flex flex-col relative min-h-0 mt-[34px] mx-0 mb-0">
+          <div class="flex flex-col bg-white rounded-[35.5px] relative min-h-0"><h3 class="font-normal text-[20px] leading-[1.2] font-Lato text-[rgb(164,164,164)] tracking-[0px] w-[44.67%] lg:text-[16px] lg:text-left relative grow min-h-[26px] mt-[22px] mr-[46.44%] mb-[23px] ml-[8.89%]">User name or Email</h3></div>
+          <div class="flex flex-col bg-white rounded-[35.5px] relative min-h-0 mt-9 mx-0 mb-0"><h3 class="font-normal text-[20px] leading-[1.2] font-Lato text-[rgb(176,175,175)] tracking-[0px] w-[44.67%] lg:text-[16px] lg:text-left relative grow min-h-[26px] mt-[22px] mr-[46.44%] mb-[23px] ml-[8.89%]">Password</h3></div>
+          <h5 class="flex justify-end font-normal text-[15px] leading-[1.2] font-Lato text-[rgb(47,229,178)] text-right tracking-[0px] relative min-h-0 mt-9 mx-0 mb-0">Forgot Password</h5>
+        </div>
+        <div class="flex flex-col relative min-h-0 mt-[30px] mr-0 mb-0 ml-0.5">
+          <div class="bg-[rgb(42,49,98)] rounded-[30px] relative grow min-h-[60px]"></div>
+          <h3 class="flex justify-center font-normal text-[20px] leading-[1.2] font-Lato text-white text-center tracking-[0px] h-[26px] lg:text-[16px] lg:text-center absolute top-[17px] left-[-2px] right-0">Login</h3>
+        </div>
+        <h5 class="flex justify-center relative min-h-0 mt-[33px] mx-0 mb-0">
+          <span class="font-normal text-[15px] leading-[1.2] font-Lato text-black text-center tracking-[0px]"><span class="not-italic text-[1em] leading-[1.2] font-Lato text-[rgb(177,177,178)] tracking-[0px]">Don’t have an account? </span><span class="not-italic text-[1em] leading-[1.2] font-Lato text-[rgb(47,229,178)] tracking-[0px]">Register.</span></span>
+        </h5>
+      </div>
     </div>
-</div>
-
-
+  </div>
+  
 {% endblock %}
