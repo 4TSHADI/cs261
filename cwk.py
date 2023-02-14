@@ -74,7 +74,7 @@ def register():
         return redirect("/")
 
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register2.html")
 
 
 def makeLogin(username, password):
