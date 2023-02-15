@@ -11,8 +11,8 @@ db = SQLAlchemy()
 # User Model
 class User(UserMixin, db.Model):
     __tablename__ = "user"
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(80), unique = True)
+    # id = db.Column(db.Integer, primary_key = True) # Don't need this. username should be the primary key.
+    username = db.Column(db.String(80), primary_key = True)
     password = db.Column(db.String(80))
     email = db.Column(db.String(120))
     phone_number = db.Column(db.String(80))
@@ -56,7 +56,7 @@ class Department(db.Model):
     
 class UserTechnology(db.Model):
     __tablename__ = "user_technology"
-    username = db.Column(db.String(20), db.ForeignKey('user.username'), primary_key=True)
+    username = db.Column(db.String(80), db.ForeignKey('user.username'), primary_key=True)
     technology_id = db.Column(db.Integer, db.ForeignKey('technology.id'), primary_key=True)
     yearsExperience = db.Column(db.Integer)
 
@@ -87,8 +87,8 @@ class ProjectTechnology(db.Model):
 class Project(db.Model):
     __tablename__ = "project"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    manager_username = db.Column(db.String(50), db.ForeignKey('user.username'), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+    manager_username = db.Column(db.String(80), db.ForeignKey('user.username'), nullable=False)
     budget = db.Column(db.Float, nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
     is_completed = db.Column(db.Boolean, nullable=False)
@@ -113,8 +113,8 @@ class Expense(db.Model):
     __tablename__ = "expense"
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
     expense_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+    description = db.Column(db.Text(), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
 
@@ -130,7 +130,7 @@ class Suggestion(db.Model):
     __tablename__ = "suggestion"
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    description = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text(), nullable=False)
     is_implemented = db.Column(db.Boolean, nullable=False)
 
     def __init__(self, project_id, description, is_implemented):
@@ -142,8 +142,8 @@ class ProjectMilestone(db.Model):
     __tablename__ = "project_milestone"
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    title = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(80), nullable=False)
+    description = db.Column(db.Text(), nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
     completed_date = db.Column(db.DateTime)
 
@@ -160,6 +160,7 @@ class ProjectManagerSurvey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), db.ForeignKey('user.username'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    # TODO: add metrics we gather from survey here
 
     def __init__(self, username, project_id):
         self.username = username
@@ -170,6 +171,7 @@ class TeamMemberSurvey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), db.ForeignKey('user.username'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    # TODO: add metrics we gather from survey here
 
     def __init__(self, username, project_id):
         self.username = username
@@ -177,13 +179,15 @@ class TeamMemberSurvey(db.Model):
 
 class UserProjectRelation(db.Model):
     __tablename__ = 'user_project_relation'
-    username = db.Column(db.String(20), db.ForeignKey('user.username'), primary_key=True)
+    username = db.Column(db.String(80), db.ForeignKey('user.username'), primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
     is_manager = db.Column(db.Boolean, nullable=False)
+    role = db.Column(db.String(80), nullable=False)
 
-    def __init__(self, username, project_id, role):
+    def __init__(self, username, project_id, is_manager, role):
         self.username = username
         self.project_id = project_id
+        self.is_manager = is_manager
         self.role = role
 
 
@@ -194,7 +198,7 @@ class UserProjectRelation(db.Model):
 # Populate the database with some dummy data
 def dbinit():
     user_list = [
-        User("Bob", security.generate_password_hash("password"), "email@gmail.com"),
+        User("Bob", security.generate_password_hash("password"), "email@gmail.com"), # TODO: change this to be dummy data for the new user schema
     ]
     db.session.add_all(user_list)
 
