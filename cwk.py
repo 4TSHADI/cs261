@@ -54,6 +54,7 @@ def register():
 
     if request.method == "POST":
         # Get the form fields.
+        # TODO - change this to be all the new form fields.
         username = escape(request.form.get("username"))
         password = escape(request.form.get("password"))
         passwordHash = security.generate_password_hash(password)

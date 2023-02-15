@@ -1,8 +1,18 @@
-form {
-    /* outline: 2px deeppink dashed; */
+/* form {
+    outline: 2px deeppink dashed;
     margin: 0px 5%;
     font-size: large;
     text-align: center;
+} */
+
+.formContainer {
+    width: max(60%, 600px);
+    margin: auto;
+    text-align: left;
+}
+
+.formlabel {
+    text-align: left;
 }
 
 .textInput {
@@ -16,4 +26,16 @@ form {
     max-width: 500px;
     width: 80%;
     font-size: medium;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.clear {
+    clear: both;
 }
