@@ -47,12 +47,10 @@ class Department(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     location = db.Column(db.Integer)
-    username = db.Column(db.String(80), db.ForeignKey('user.username'))
 
     def __init__(self, name, location, username):
         self.name = name
         self.location = location
-        self.username = username
     
 class UserTechnology(db.Model):
     __tablename__ = "user_technology"
@@ -197,13 +195,13 @@ class UserProjectRelation(db.Model):
 
 # Populate the database with some dummy data
 def dbinit():
-    user_list = [
-        User("Bob", security.generate_password_hash("password"), "email@gmail.com"), # TODO: change this to be dummy data for the new user schema
+    user_list = [ # TODO: change this to be dummy data for the new user schema
     ]
+    
     db.session.add_all(user_list)
 
     # Find the id of the user Bob
-    bob_id = User.query.filter_by(username="Bob").first().id
+    # bob_id = User.query.filter_by(username="Bob").first().id
 
     # Commit all the changes to the database file.
     db.session.commit()
