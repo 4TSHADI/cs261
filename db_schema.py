@@ -11,28 +11,36 @@ db = SQLAlchemy()
 # User Model
 class User(UserMixin, db.Model):
     __tablename__ = "users"
-    username = db.Column(db.String(50), primary_key = True)
-    password = db.Column(db.Text())
-    firstname = db.Column(db.Text())
-    lastname = db.Column(db.Text())
-    email = db.Column(db.Text(), unique = True)
-    phoneNumber = db.Column(db.String(15), unique = True)
-    departmentID = db.Column(db.Integer)
-    language = db.Column(db.String(20)) # Not sure how we are going to store/use this.
-    timezone = db.Column(db.String(20)) # Not sure how we are going to store/use this.
-    currency = db.Column(db.String(10)) # Not sure how we are going to store/use this.
-    working = db.Column(db.Boolean) # Boolean of if they are currently working, e.g. False = on holiday.
+    id = db.Column(db.Integer, primary_key=True) # Let Chris know that had to put id back in the database
+    username = db.Column(db.String(80), unique = True)
+    password = db.Column(db.String(80))
+    firstname = db.Column(db.String(80))
+    lastname = db.Column(db.String(80))
+    email = db.Column(db.String(120))
+    phone_number = db.Column(db.String(80))
+    # department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
+    department_id = db.Column(db.Integer)
+    language = db.Column(db.String(80))
+    timezone = db.Column(db.String(80))
+    currency = db.Column(db.String(80))
+    working = db.Column(db.Boolean)
     yearsAtCompany = db.Column(db.Integer)
 
+    # technologies = db.relationship('UserTechnology', backref='user', lazy=True)
+    # department = db.relationship('Department', backref='user', uselist=False)
+    # projects = db.relationship('UserProjectRelation', backref='user', lazy=True)
+    # surveys = db.relationship('TeamMemberSurvey', backref='user', lazy=True)
 
-    def __init__(self, username, password, firstname, lastname, email, phoneNumber, departmentID, language, timezone, currency, working, yearsAtCompany):
+
+    def __init__(self, username, password, firstname, lastname, email, phone_number, department_id, language,
+                    timezone, currency, working, yearsAtCompany):
         self.username = username
         self.password = password
         self.firstname = firstname
         self.lastname = lastname
         self.email = email
-        self.phoneNumber = phoneNumber
-        self.departmentID = departmentID
+        self.phone_number = phone_number
+        self.department_id = department_id
         self.language = language
         self.timezone = timezone
         self.currency = currency

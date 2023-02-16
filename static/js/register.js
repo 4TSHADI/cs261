@@ -41,7 +41,7 @@ $( function() {
         // password much contain at least one symbol
         if (!passwordPattern.test(password)){
             flash("Password must contain at least one lowercase character, uppercase character, digit and symbol.");
-            return false;
+            // return false;// TODO: uncomment when done.
         }
 
         return true;
