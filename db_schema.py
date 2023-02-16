@@ -11,8 +11,8 @@ db = SQLAlchemy()
 # User Model
 class User(UserMixin, db.Model):
     __tablename__ = "user"
-    # id = db.Column(db.Integer, primary_key = True) # Don't need this. username should be the primary key.
-    username = db.Column(db.String(80), primary_key = True)
+    id = db.Column(db.Integer, primary_key = True) # Don't need this. username should be the primary key.
+    username = db.Column(db.String(80), unique = True)
     password = db.Column(db.String(80))
     email = db.Column(db.String(120))
     phone_number = db.Column(db.String(80))
