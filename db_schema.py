@@ -48,18 +48,18 @@ class Department(db.Model):
     name = db.Column(db.String(80))
     location = db.Column(db.Integer)
 
-    def __init__(self, name, location, username):
+    def __init__(self, name, location):
         self.name = name
         self.location = location
     
 class UserTechnology(db.Model):
     __tablename__ = "user_technology"
-    username = db.Column(db.String(80), db.ForeignKey('user.id'), primary_key=True)
+    user_id = db.Column(db.String(80), db.ForeignKey('user.id'), primary_key=True)
     technology_id = db.Column(db.Integer, db.ForeignKey('technology.id'), primary_key=True)
     yearsExperience = db.Column(db.Integer)
 
-    def __init__(self, username, technology_id, yearsExperience):
-        self.username = username
+    def __init__(self, user_id, technology_id, yearsExperience):
+        self.user_id = user_id
         self.technology_id = technology_id
         self.yearsExperience = yearsExperience
 
@@ -155,34 +155,34 @@ class ProjectMilestone(db.Model):
 class ProjectManagerSurvey(db.Model):
     __tablename__ = "project_manager_survey"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.String(20), db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     # TODO: add metrics we gather from survey here
 
-    def __init__(self, username, project_id):
-        self.username = username
+    def __init__(self, user_id, project_id):
+        self.user_id = user_id
         self.project_id = project_id
     
 class TeamMemberSurvey(db.Model):
     __tablename__ = 'team_member_survey'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.String(20), db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     # TODO: add metrics we gather from survey here
 
-    def __init__(self, username, project_id):
-        self.username = username
+    def __init__(self, user_id, project_id):
+        self.user_id = user_id
         self.project_id = project_id
 
 class UserProjectRelation(db.Model):
     __tablename__ = 'user_project_relation'
-    username = db.Column(db.String(80), db.ForeignKey('user.id'), primary_key=True)
+    user_id = db.Column(db.String(80), db.ForeignKey('user.id'), primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
     is_manager = db.Column(db.Boolean, nullable=False)
     role = db.Column(db.String(80), nullable=False)
 
-    def __init__(self, username, project_id, is_manager, role):
-        self.username = username
+    def __init__(self, user_id, project_id, is_manager, role):
+        self.user_id = user_id
         self.project_id = project_id
         self.is_manager = is_manager
         self.role = role
