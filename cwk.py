@@ -18,7 +18,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 from db_schema import db, User, dbinit
 db.init_app(app)
 
-resetdb = True # Change to True to reset the database with the data defined in the db_schema.py file.
+resetdb = False # Change to True to reset the database with the data defined in the db_schema.py file.
 if resetdb:
     with app.app_context():
         # Drop everything, create all tables and populate with data
@@ -34,8 +34,8 @@ login_manager.init_app(app)
 login_manager.login_view = "/login" # sets the route to go to if the user attempts to access a route which requries them to be logged in and they are not.
 
 @login_manager.user_loader
-def load_user(userid):
-    return User.query.get(int(userid))
+def load_user(username):
+    return User.query.get(username)
 
 
 # Routes
@@ -57,11 +57,13 @@ def register():
         username = escape(request.form.get("username"))
         password = escape(request.form.get("password"))
         passwordHash = security.generate_password_hash(password)
+        firstname = escape(request.form.get("firstname"))
+        lastname = escape(request.form.get("lastname"))
         email = escape(request.form.get("email"))
 
         # attempt to add new user to database
         try:
-            newUser = User(username=username, password=passwordHash, email=email)
+            newUser = User(username=username, password=passwordHash, firstname=firstname, lastname=lastname, email=email, phone_number=None, department_id=None, language=None, timezone=None, currency=None, working=True, yearsAtCompany=None)
             db.session.add(newUser)
             db.session.commit()
 
@@ -83,15 +85,14 @@ def makeLogin(username, password):
         dbUser = User.query.filter_by(username=username).first()
         if dbUser is None:
             print("User doesn't exist.")
-            return redirect("/login")
+            return False
         
         if not security.check_password_hash(dbUser.password, password):
             print("password doesn't match")
-            return redirect("/login")
+            return False
 
         # entered password matches the stored password for the user, login them in
-        login_user(dbUser)
-        # print("user " + username + " logged in")
+        res = login_user(dbUser)
         return True
 
     except:
@@ -106,11 +107,12 @@ def login():
 
     if request.method == "POST":
         # Get form fields.
-        username = request.form.get("username")
-        password = request.form.get("password")
+        username = escape(request.form.get("username"))
+        password = escape(request.form.get("password"))
 
         # Attempt to login
         if makeLogin(username, password):
+            print("login successful")
             return redirect("/")
         else:
             flash("Unable to login", "error")

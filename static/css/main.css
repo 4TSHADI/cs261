@@ -54,6 +54,14 @@ body {
     padding: 5px;
 }
 
+.width50{
+    width: 50%;
+}
+
+.width90{
+    width: 90%;
+}
+
 #header {
     align-items: right;
     margin: 20px 5%;

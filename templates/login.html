@@ -16,12 +16,29 @@
 <h1>Login</h1>
 <p>Login to an account below.</p>
 
-<form id="loginForm" action="/login" method="POST">
-    <input class="textInput" type="text" name="username" id="username" placeholder="Username" required><br><br>
+<div class="formContainer">
 
-    <input class="textInput" type="password" name="password" id="password" placeholder="Password" required><br><br>
+    
+    <form id="loginForm" action="/login" method="POST">
+        <div class="formRowContainer">
+            <label class="formlabel" for="username">Username:</label><br>
+            <input class="textInput" type="text" name="username" id="username" placeholder="Username" required>
+        </div>
 
-    <input class="btn-primary btn-primary-hover" type="submit" name="login" id="loginbtn" value="Login">
-</form>
+        <div class="clear">&nbsp;</div>
+        
+        <div class="formRowContainer">
+            <label class="formlabel" for="password">Password:</label><br>
+            <input class="textInput" type="password" name="password" id="password" placeholder="Password" required>
+        </div>
 
+        <div class="clear">&nbsp;</div>
+
+        <div class="formRowContainer center">
+            <input class="btn-primary btn-primary-hover" type="submit" name="login" id="loginbtn" value="Login">
+        </div>
+        
+    </form>
+</div>
+    
 {% endblock %}
