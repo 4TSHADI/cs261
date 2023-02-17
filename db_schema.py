@@ -14,6 +14,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(80), unique = True)
     password = db.Column(db.String(80))
+    firstname = db.Column(db.String(80))
+    lastname = db.Column(db.String(80))
     email = db.Column(db.String(120))
     phone_number = db.Column(db.String(80))
     department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
@@ -29,10 +31,12 @@ class User(UserMixin, db.Model):
     surveys = db.relationship('TeamMemberSurvey', backref='user', lazy=True)
 
 
-    def __init__(self, username, password, email, phone_number, department_id, language,
+    def __init__(self, username, password, firstname, lastname, email, phone_number, department_id, language,
                     timezone, currency, working, yearsAtCompany):
         self.username = username
         self.password = password
+        self.firstname = firstname
+        self.lastname = lastname
         self.email = email
         self.phone_number = phone_number
         self.department_id = department_id
@@ -54,7 +58,7 @@ class Department(db.Model):
     
 class UserTechnology(db.Model):
     __tablename__ = "user_technology"
-    user_id = db.Column(db.String(80), db.ForeignKey('user.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     technology_id = db.Column(db.Integer, db.ForeignKey('technology.id'), primary_key=True)
     yearsExperience = db.Column(db.Integer)
 
@@ -86,7 +90,7 @@ class Project(db.Model):
     __tablename__ = "project"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
-    manager_username = db.Column(db.String(80), db.ForeignKey('user.id'), nullable=False)
+    manager_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     budget = db.Column(db.Float, nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
     is_completed = db.Column(db.Boolean, nullable=False)
@@ -99,9 +103,9 @@ class Project(db.Model):
     team_member_surveys = db.relationship('TeamMemberSurvey', backref='project', lazy=True)
     user_project_relations = db.relationship('UserProjectRelation', backref='project', lazy=True)
 
-    def __init__(self, name, manager_username, budget, deadline, is_completed):
+    def __init__(self, name, manager_id, budget, deadline, is_completed):
         self.name = name
-        self.manager_username = manager_username
+        self.manager_id = manager_id
         self.budget = budget
         self.deadline = deadline
         self.is_completed = is_completed
@@ -155,7 +159,7 @@ class ProjectMilestone(db.Model):
 class ProjectManagerSurvey(db.Model):
     __tablename__ = "project_manager_survey"
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(20), db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     # TODO: add metrics we gather from survey here
 
@@ -166,7 +170,7 @@ class ProjectManagerSurvey(db.Model):
 class TeamMemberSurvey(db.Model):
     __tablename__ = 'team_member_survey'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(20), db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     # TODO: add metrics we gather from survey here
 
@@ -176,7 +180,7 @@ class TeamMemberSurvey(db.Model):
 
 class UserProjectRelation(db.Model):
     __tablename__ = 'user_project_relation'
-    user_id = db.Column(db.String(80), db.ForeignKey('user.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
     is_manager = db.Column(db.Boolean, nullable=False)
     role = db.Column(db.String(80), nullable=False)
