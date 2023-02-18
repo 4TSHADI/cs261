@@ -2,50 +2,39 @@
 {% block title%}Login{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="../static/css/login.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="../static/css/signin_up.css" type="text/css" charset="utf-8">
 {% endblock %}
 
 {% block header %}
-
+{{super()}}
 {% endblock %}
 
 {% block main%}
+{{super()}}
 
-<div>
-    <div class="loginpage-loginpage">
-        <div class="loginpage-frame1"></div>
-        <img src="/playground_assets/rectangle2210-6zzt-1000w.png" class="loginpage-rectangle2" />
-        <div class="loginpage-group10">
-            <div class="loginpage-container1">
-                <span class="loginpage-text">
-                    <span class="loginpage-text01">Don’t have an account?</span>
-                    <span>Register.</span>
-                </span>
-                <span class="loginpage-text03"><span>Forgot Password</span></span>
-                <div class="loginpage-login">
-                    <img src="/playground_assets/rectangle73521-48gl-200h.png" class="loginpage-rectangle7" />
-                    <span class="loginpage-text05"><span>Login</span></span>
-                </div>
-                <div class="loginpage-password">
-                    <span class="loginpage-text07"><span>Password</span></span>
-                </div>
-                <div class="loginpage-user-name">
-                    <span class="loginpage-text09">
-                        <span>User name or Email</span>
-                    </span>
-                </div>
-                <div class="loginpage-hello-user">
-                    <span class="loginpage-text11">
-                        <span>Login with your details</span>
-                    </span>
-                </div>
-                <div class="loginpage-h-e-l-l-o">
-                    <span class="loginpage-text13"><span>Hello.</span></span>
-                </div>
-            </div>
-        </div>
+<body class="form-v10">
+	<div class="page-content">
+		<div class="form-v10-content">
+			<form class="form-detail" action="#" method="post" id="myform">
+				<div class="form-left">
+					<h2>Login Credentials</h2>
+                    <div class="form-row">
+                        <input type="text" name="your_email" id="your_email" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" placeholder="Your Email">
+                    </div>
+                    <div class="form-row">
+						<input type="text" name="password" class="password" id="password" placeholder="Password" required>
+				    </div>
+                    <div class="form-row-first">
+                        <input type="submit" name="button" class="button" value="Login">
+                    </div>
+                    <div class="form-row-last">
+                        <input type="submit" name="button" class="button" value="Register">
+                    </div>
+                </div >
+            </form>
     </div>
-</div>
+    </div>
+</body>
 
 
 {% endblock %}
