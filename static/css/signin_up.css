@@ -233,11 +233,11 @@ body {
 }
 .form-v10-content .form-detail .form-right .form-row-first{
     padding-left: 20px;
-    margin: 44px 0 10px;
+    margin: 44px 20px 10px;
 }
 .form-v10-content .form-detail .form-row-last {
     padding-left: 60px;
-    margin: 44px 0 10px;
+    margin: 44px 10px 10px;
 }
 .form-v10-content .form-detail .button {
 	background: #7231c8;
@@ -258,6 +258,7 @@ body {
 	color: #333;
 	font-weight: 700;
 	font-size: 15px;
+	text-align: center;
 }
 .form-v10-content .form-detail .button:hover {
 	background: #ccc;
