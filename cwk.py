@@ -15,7 +15,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 # Database config and import
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///database.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-from db_schema import db, User, UserProjectRelation, Expense, dbinit
+from db_schema import db, User, UserProjectRelation, Expense, ProjectMilestone, dbinit
 db.init_app(app)
 
 resetdb = False # Change to True to reset the database with the data defined in the db_schema.py file.
@@ -152,3 +152,26 @@ def expenses():
         except:
             pass
     return render_template("expenses.html")
+
+
+@app.route("/milestones", methods=["GET", "POST"])
+def milestones():
+    if request.method == "POST":
+        title = escape(request.form.get("milTitle"))
+        description = escape(request.form.get("milDescription"))
+        date = request.form.get("milDate")
+
+        # carry out length checking in JS
+        # REMOVE HARDCODED VALUES
+        try: 
+            projectID = 1 # hardcoded for now - need to pass actual pid in
+            userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID)
+            if userRole.lower() in ["project manager", "business analyst"]:
+                new_milestone = ProjectMilestone(project_id=projectID, title=title,description=description,deadline=date,
+                completed_date=None )
+                db.session.add(new_milestone)
+                db.session.commit()
+                flash("Milestone created!", category="success")
+        except:
+            pass
+    return render_template("milestones.html")
