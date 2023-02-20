@@ -15,7 +15,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 # Database config and import
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///database.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-from db_schema import db, User, UserProjectRelation, dbinit
+from db_schema import db, User, UserProjectRelation, Expense, dbinit
 db.init_app(app)
 
 resetdb = False # Change to True to reset the database with the data defined in the db_schema.py file.
@@ -138,14 +138,17 @@ def expenses():
         amount = request.form.get("expAmount")
         date = request.form.get("expDate")
 
-        if len(title) == 0 or len(description) == 0 or date == None:
-            flash("Please enter all expense details", "error")
-            return redirect("/expenses")
-        else:
-            projectID = 1
-            userRole = UserProjectRelation.query.filter_by(current_user.id, project_id=projectID)
-            if userRole.lower() == "project manager" or userRole.lower() == "business analyst":
-                # input expense here
-                pass
-            flash("Expense created!", category="success")
+        # carry out length checking in JS
+        # REMOVE HARDCODED VALUES
+        try: 
+            projectID = 1 # hardcoded for now - need to pass actual pid in
+            userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID)
+            if userRole.lower() in ["project manager", "business analyst"]:
+                new_expense = Expense(project_id=projectID, name=title, description=description,
+                amount=amount, timestamp=date)
+                db.session.add(new_expense)
+                db.session.commit()
+                flash("Expense created!", category="success")
+        except:
+            pass
     return render_template("expenses.html")
