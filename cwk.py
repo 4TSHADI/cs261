@@ -117,7 +117,7 @@ def login():
             return redirect("/login")
     
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("home.html")
 
 
 @app.route("/logout")

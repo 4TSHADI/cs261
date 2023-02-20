@@ -4,7 +4,7 @@
     <head>
         {% block head %}
         <link rel="icon" type="image/x-icon" href="../static/images/logo-blue.png">
-        <link rel="stylesheet" href="static/css/main.css" type="text/css"charset="utf-8">
+        <link rel="stylesheet" href="static/css/main2.css" type="text/css"charset="utf-8">
         <script src="static/js/jquery-3.6.0.min.js"></script>
 
         <title>{% block title%}{% endblock %}</title>
@@ -12,10 +12,59 @@
     </head>
 
     <body>
+        <div id="viewport">
+            <!-- Sidebar -->
+            <div id="sidebar">
+              <header>
+                <a href="#">My App</a>
+              </header>
+              <ul class="nav">
+                <li>
+                  <a href="#">
+                    <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="zmdi zmdi-link"></i> Shortcuts
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="zmdi zmdi-widgets"></i> Overview
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="zmdi zmdi-calendar"></i> Events
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="zmdi zmdi-info-outline"></i> About
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="zmdi zmdi-settings"></i> Services
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="zmdi zmdi-comment-more"></i> Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <!-- Content -->
+            <div id="content">
+              <nav class="navbar navbar-default">
 
-        <div id="header" class="card">
+              </nav>
+            </div>
+          </div>
+        <!-- <div id="header" class="card">
             {% block header %}
-            <img id="logo" src="../static/images/logo-blue.png" alt="Logo">
                     
             {% if current_user.is_authenticated %}
                 <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/logout'">Logout</button>
@@ -25,7 +74,7 @@
             {% endif %}
 
             {% endblock%}
-        </div>
+        </div> -->
 
         <div id="mainContent" class="center card">
             {% if current_user.is_authenticated %}
