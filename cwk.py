@@ -15,7 +15,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 # Database config and import
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///database.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-from db_schema import db, User, dbinit
+from db_schema import db, User, UserProjectRelation, dbinit
 db.init_app(app)
 
 resetdb = False # Change to True to reset the database with the data defined in the db_schema.py file.
@@ -130,3 +130,22 @@ def logout():
         logout_user()
     return redirect("/")
 
+@app.route("/expenses", methods=["GET", "POST"])
+def expenses():
+    if request.method == "POST":
+        title = escape(request.form.get("expTitle"))
+        description = escape(request.form.get("expDescription"))
+        amount = request.form.get("expAmount")
+        date = request.form.get("expDate")
+
+        if len(title) == 0 or len(description) == 0 or date == None:
+            flash("Please enter all expense details", "error")
+            return redirect("/expenses")
+        else:
+            projectID = 1
+            userRole = UserProjectRelation.query.filter_by(current_user.id, project_id=projectID)
+            if userRole.lower() == "project manager" or userRole.lower() == "business analyst":
+                # input expense here
+                pass
+            flash("Expense created!", category="success")
+    return render_template("expenses.html")
