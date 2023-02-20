@@ -5,6 +5,7 @@ from sqlalchemy.sql import func
 from werkzeug import security
 
 
+
 # Create the database interface
 db = SQLAlchemy()
 
@@ -192,20 +193,78 @@ class UserProjectRelation(db.Model):
         self.role = role
 
 
+class Language(db.Model):
+    __tablename__ = 'language'
+    name = db.Column(db.String(20), primary_key=True)
 
+    def __init__(self, name):
+        self.name = name
+    
+class Timezone(db.Model):
+    __tablename__ = 'timezone'
+    name = db.Column(db.String(20), primary_key=True)
 
+    def __init__(self, name):
+        self.name = name
+
+class Currency(db.Model):
+    __tablename__ = 'currency'
+    name = db.Column(db.String(20), primary_key=True)
+
+    def __init__(self, name):
+        self.name = name
+
+    
 
 
 # This function is called when the database is reset (resetdb boolean=True in cwk.py file)
 # Put code in here to populate the database with dummy values.
 def dbinit():
     user_list = [ # TODO: change this to be dummy data for the new user schema
+        User("Mike18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7)
     ]
     
     db.session.add_all(user_list)
 
-    # Find the id of the user Bob
-    # bob_id = User.query.filter_by(username="Bob").first().id
+    project_list = [
+        Project("Project A", 1, 100000, func.now(), False),
+        Project("Project B", 2, 10, func.now(), False),
+        Project("Project C", 2, 999, func.now(), False),
+        Project("Project D", 1, 4568, func.now(), False),
+    ]
+    db.session.add_all(project_list)
+
+    userProjectRelaion_list = [
+        UserProjectRelation(1, 1, False, "Software Engineer"),
+        UserProjectRelation(1, 2, True, "Project Manager"),
+        UserProjectRelation(1, 3, False, "Software Engineer"),
+        UserProjectRelation(2, 1, True, "Project Manager"),
+        UserProjectRelation(2, 2, False, "Software Engineer")
+    ]
+    db.session.add_all(userProjectRelaion_list)
+
+
+    department_list = [
+        Department("Frontend", 1),
+        Department("Security", 1),
+        Department("API", 2),
+        Department("Backend", 3)
+    ]
+    db.session.add_all(department_list)
+
+    languages = ["English", "French", "Spanish", "German"]
+    languages_list = [Language(x) for x in languages]
+    db.session.add_all(languages_list)
+
+    timezones = [("GMT" + str(a) + str(n)) for a in ["+", "-"] for n in range(12)]
+    timezone_list = [Timezone(x) for x in timezones]
+    db.session.add_all(timezone_list)
+
+    currencies = ["£", "$", "€", "¥"]
+    currency_list = [Currency(x) for x in currencies]
+    db.session.add_all(currency_list)
+
 
     # Commit all the changes to the database file.
     db.session.commit()

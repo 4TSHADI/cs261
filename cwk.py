@@ -15,10 +15,10 @@ app.secret_key = os.getenv("SECRET_KEY")
 # Database config and import
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///database.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-from db_schema import db, User, dbinit
+from db_schema import db, User, Department, UserTechnology, Technology, ProjectTechnology, Project, Expense, Suggestion, ProjectMilestone, ProjectManagerSurvey, TeamMemberSurvey, UserProjectRelation, Language, Timezone, Currency, dbinit
 db.init_app(app)
 
-resetdb = False # Change to True to reset the database with the data defined in the db_schema.py file.
+resetdb = True  # Change to True to reset the database with the data defined in the db_schema.py file.
 if resetdb:
     with app.app_context():
         # Drop everything, create all tables and populate with data
@@ -63,7 +63,7 @@ def register():
 
         # attempt to add new user to database
         try:
-            newUser = User(username=username, password=passwordHash, firstname=firstname, lastname=lastname, email=email, phone_number=None, department_id=None, language=None, timezone=None, currency=None, working=True, yearsAtCompany=None)
+            newUser = User(username=username, password=passwordHash, firstname=firstname, lastname=lastname, email=email, phone_number="444444444", department_id=1, language=None, timezone=None, currency=None, working=True, yearsAtCompany=None)
             db.session.add(newUser)
             db.session.commit()
 
@@ -130,3 +130,36 @@ def logout():
         logout_user()
     return redirect("/")
 
+
+@app.route("/profile")
+@login_required
+def profile():
+    if request.method == "GET":
+
+        user_department_id = User.query.get(current_user.id).department_id
+        user_department = Department.query.get(user_department_id)
+        
+        user_projects = db.session.query(Project).join(UserProjectRelation)\
+            .filter(Project.id == UserProjectRelation.project_id, UserProjectRelation.user_id == current_user.id).all()
+        # print("projects: " + str(user_projects1))
+
+
+        return render_template("profile.html", user_department=user_department, user_projects=user_projects)
+
+
+@app.route("/edit_profile", methods=["POST", "GET"])
+@login_required
+def edit_profile():
+    if request.method == "POST":
+        # Handle updating of user details.
+
+        # TODO: Check that updating the values works and flash message to user if not valid.
+
+        pass
+    elif request.method == "GET":
+        departments = db.session.query(Department).all()
+        languages = db.session.query(Language).all()
+        timezones = db.session.query(Timezone).all()
+        currencies = db.session.query(Currency).all()
+
+        return render_template("edit_profile.html", departments=departments, languages=languages, timezones=timezones, currencies=currencies)

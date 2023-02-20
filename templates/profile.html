@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title%}Profile{% endblock %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="static/css/profile.css" type="text/css" charset="utf-8">
+{% endblock %}
+
+{% block header %}
+{{super()}}
+{% endblock %}
+
+{% block main%}
+{{super()}}
+
+<div class="">
+    <div class="noCenter profileContainer outline">
+        <h1>Username: {{ current_user.username }}</h1>
+        <h2>Name: {{ current_user.firstname }} {{ current_user.lastname }} </h2>
+        <h2>Email: {{ current_user.email }}</h2>
+        <h2>Phone no.: {{ current_user.phone_number }}</h2>
+        <h2>Department: {{ user_department.name }}</h2>
+
+        <br>
+
+        <h2>Projects:</h2>
+        <ul>
+            {% for project in user_projects %}
+            <a href="/project/{{ project.id }}">
+                <li href="/project/{{ project.id }}">{{ project.name }}</li>
+            </a>
+            {% endfor %}
+        </ul>
+
+        <a href="/edit_profile">
+            <h3>Edit profile</h3>
+        </a>
+    </div>
+</div>
+    
+{% endblock %}
