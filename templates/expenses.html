@@ -17,13 +17,13 @@
 <p>Enter project expenditure details below</p>
 
 <form id="expensesForm" action="#" method="POST">
-    <input class="textInput" type="text" name="expTitle" id="expTitle" placeholder="Expense Title" ><br><br>
+    <input class="textInput expenses" type="text" name="expTitle" id="expTitle" placeholder="Expense Title" ><br><br>
 
     <textarea rows="4" cols="50" class="textInput" type="text" name="expDescription" id="expDescription" placeholder="Description" ></textarea><br><br>
 
-    <input class="textInput" type="number" step="0.01" min="0"  name="expAmount" id="expAmount" placeholder="Amount" ><br><br>
+    <input class="textInput expenses" type="number" step="0.01" min="0"  name="expAmount" id="expAmount" placeholder="Amount" ><br><br>
 
-    <input class="textInput" type="date"  name="expDate" id="expDate" placeholder="Date" ><br><br>
+    <input class="textInput expenses" type="date"  name="expDate" id="expDate" placeholder="Date" ><br><br>
 
     <input type="hidden" id="projID" name="projID" value= "{{ projectid }}" > <!-- change value to be value entered from prev page -->
     

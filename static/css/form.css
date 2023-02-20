@@ -30,7 +30,11 @@
     border-radius: 5px;
     font-family: inherit;
     font-size: medium;
-    width: 30%;
+    width: 60%;
+}
+
+.expenses.textInput {
+    width: 25%;
 }
 
 .left {
@@ -47,6 +51,5 @@
 
 textarea {
     min-height: 60px;
-    max-width: 500px;
-    min-width: 41%;
+    max-width: 350px;
 }
