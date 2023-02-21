@@ -293,3 +293,5 @@ def user_technology():
         # print(technology_list)
 
         return render_template("user_technology.html", technologies = technology_list)
+
+
