@@ -125,6 +125,10 @@ body {
     margin: 0 5%;
 }
 
+.success {
+    background-color: rgb(149, 231, 141);
+}
+
 .alignBottom {
     position: absolute;
     bottom: 5px;
