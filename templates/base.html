@@ -29,16 +29,6 @@
             {% endblock%}
         </div>
 
-        <div id="mainContent" class="center card">
-            {% if current_user.is_authenticated %}
-                <h1>Hello {{ current_user.username }}</h1>
-            {% endif %}
-
-            {% block main %}
-            
-            {% endblock %}
-        </div>
-
         <div class="center" id="messageBox">
             {% with messages = get_flashed_messages(with_categories=true) %}  
                 {% if messages %}  
@@ -49,6 +39,16 @@
                     {% endfor %}  
                 {% endif %}  
             {% endwith %} 
+        </div>
+        
+        <div id="mainContent" class="center card">
+            {% if current_user.is_authenticated %}
+                <h1>Hello {{ current_user.username }}</h1>
+            {% endif %}
+
+            {% block main %}
+            
+            {% endblock %}
         </div>
 
     </body>

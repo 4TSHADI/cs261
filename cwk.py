@@ -169,15 +169,15 @@ def milestones():
 
         # carry out length checking in JS
         # REMOVE HARDCODED VALUES
-        try: 
-            projectID = 1 # hardcoded for now - need to pass actual pid in
-            userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID)
-            if userRole.lower() in ["project manager", "business analyst"]:
-                new_milestone = ProjectMilestone(project_id=projectID, title=title,description=description,deadline=date,
-                completed_date=None )
-                db.session.add(new_milestone)
-                db.session.commit()
-                flash("Milestone created!", category="flashedSuccess")
-        except:
-            pass
+        #try: 
+        projectID = 1 # hardcoded for now - need to pass actual pid in
+        userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID).first().role
+        if userRole.lower() in ["project manager", "business analyst"]:
+            new_milestone = ProjectMilestone(project_id=projectID, title=title,description=description,
+            deadline=datetime.strptime(date, '%Y-%m-%d'), completed_date=None )
+            db.session.add(new_milestone)
+            db.session.commit()
+            flash("Milestone created!", category="success")
+        # except:
+        #     pass
     return render_template("milestones.html")
