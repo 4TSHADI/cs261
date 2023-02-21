@@ -19,6 +19,7 @@
 
 .formlabel {
     text-align: left;
+    flex: 1;
 }
 
 .textInput {
@@ -37,13 +38,13 @@
     width: 25%;
 }
 
-.left {
+/* .left {
     float: left;
 }
 
 .right {
     float: right;
-}
+} */
 
 .clear {
     clear: both;
