@@ -3,7 +3,7 @@ $( function() {
         let title = $("#expTitle").val();
         let description = $("#expDescription").val();
         let amount = $("#expAmount").val();
-        let date = $(expDate).val();
+        let date = $("#expDate").val();
 
         let messageBox = $("#messageBox");
         messageBox.empty();
@@ -20,7 +20,7 @@ $( function() {
             return false;
         }
 
-        if (date == None){
+        if (date.length == 0){
             flash("Ensure date for expenditure has been recorded.");
             return false;
         }
