@@ -1,3 +1,4 @@
+from aifc import Error
 from xml.dom import NoModificationAllowedErr
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
@@ -152,10 +153,56 @@ def profile():
 def edit_profile():
     if request.method == "POST":
         # Handle updating of user details.
+        username = request.form.get("username")
+        new_firstname = request.form.get("firstname")
+        new_lastname = request.form.get("lastname")
+        new_email = request.form.get("email")
+        new_phone_number = request.form.get("phone_number")
+        new_department_id = request.form.get("department")
+        new_language = request.form.get("language")
+        new_timezone = request.form.get("timezone")
+        new_currency = request.form.get("currency")
+        new_working = request.form.get("working")
+        new_years_at_company = request.form.get("years_at_company")
 
-        # TODO: Check that updating the values works and flash message to user if not valid.
+        # Check user with the same email doesn't already exist.
+        user_email_test = db.session.query(User).filter(User.email == new_email).first()
+        if user_email_test is not None and current_user.email != new_email:
+            # Email already exists in database.
+            print("email already exists in database")
+            flash("New email already in use", "error")
+            return redirect("/profile")
+    
 
-        pass
+        user_data =  db.session.query(User).filter(User.username == current_user.username).first()
+        if user_data is None:
+            print("error, user doesn't exist")
+            flash("Unable to update details", "error")
+            return redirect("/profile")
+
+        # Update user_data values in the database
+        try:
+            user_data.firstname = new_firstname
+            user_data.lastname = new_lastname
+            user_data.email = new_email
+            user_data.phone_number = new_phone_number
+            user_data.department_id = new_department_id
+            user_data.language = new_language
+            user_data.timezone = new_timezone
+            user_data.currency = new_currency
+            user_data.working = True if new_working == "True" else False
+            user_data.yearsAtCompany = new_years_at_company
+
+            
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            print("error updating user")
+            flash("Unable to update details", "error")
+            return redirect("/profile")
+
+        return redirect("/profile")
+
     elif request.method == "GET":
         departments = db.session.query(Department).all()
         languages = db.session.query(Language).all()

@@ -17,10 +17,10 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(80))
     firstname = db.Column(db.String(80))
     lastname = db.Column(db.String(80))
-    email = db.Column(db.String(120))
+    email = db.Column(db.String(120), unique = True)
     phone_number = db.Column(db.String(80))
     department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
-    language = db.Column(db.String(80))
+    language = db.Column(db.String(80)) # TODO: change so it references the language table
     timezone = db.Column(db.String(80))
     currency = db.Column(db.String(80))
     working = db.Column(db.Boolean)

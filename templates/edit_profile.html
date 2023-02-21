@@ -4,7 +4,7 @@
 {% block head %}
 {{super()}}
 <link rel="stylesheet" href="static/css/form.css" type="text/css" charset="utf-8">
-<!-- TODO: Add script in to check constraints of values entered -->
+<script src="static/js/edit_profile.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -17,7 +17,7 @@
 <h1>Edit Details</h1>
 
 <div class="formContainer">
-    <form id="updateProfile" action="/edit_profile" method="POST">
+    <form id="edit_profile_form" action="/edit_profile" method="POST">
         <div class="left width50 formRowContainer">
             <label class="formlabel" for="username">Username:</label><br>
             <input class="textInput" type="text" name="username" id="username" value="{{current_user.username}}" required disabled>
@@ -50,8 +50,8 @@
         <div class="clear">&nbsp;</div>
 
         <div class="formRowContainer">
-            <label class="formlabel" for="phoneNumber">Phone Number:</label><br>
-            <input class="textInput" type="tel" name="phoneNumber" id="phoneNumber" value="{{current_user.phone_number}}" required>
+            <label class="formlabel" for="phone_number">Phone Number:</label><br>
+            <input class="textInput" type="tel" name="phone_number" id="phone_number" value="{{current_user.phone_number}}" required>
         </div>
         
         <div class="clear">&nbsp;</div>
@@ -60,7 +60,7 @@
             <label class="formlabel noCenter" for="department">Department:</label><br>
             <select class="dropdown" name="department" id="department" required>
                 {% for department in departments %}
-                    <option value="{{department.name}}">{{department.name}}</option>
+                    <option value="{{department.id}}" {% if (current_user.department_id == department.id) %} selected="selected" {% endif %}>{{department.name}}</option>
                 {% endfor %}
             </select>
 
@@ -72,7 +72,7 @@
             <label class="formlabel noCenter" for="language">Language:</label><br>
             <select class="dropdown" name="language" id="language" required>
                 {% for language in languages %}
-                    <option value="{{language.name}}">{{language.name}}</option>
+                    <option value="{{language.name}}" {% if (current_user.language == language.name) %} selected="selected" {% endif %}>{{language.name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -81,7 +81,7 @@
             <label class="formlabel noCenter" for="timezone">Timezone:</label><br>
             <select class="dropdown" name="timezone" id="timezone" required>
                 {% for timezone in timezones %}
-                    <option value="{{timezone.name}}">{{timezone.name}}</option>
+                    <option value="{{timezone.name}}" {% if (current_user.timezone == timezone.name) %} selected="selected" {% endif %}>{{timezone.name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -92,7 +92,7 @@
             <label class="formlabel noCenter" for="currency">Currency:</label><br>
             <select class="dropdown" name="currency" id="currency" required>
                 {% for currency in currencies %}
-                    <option value="{{currency.name}}">{{currency.name}}</option>
+                    <option value="{{currency.name}}" {% if (current_user.currency == currency.name) %} selected="selected" {% endif %}>{{currency.name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -100,14 +100,14 @@
         <div class="left width33 formRowContainer">
             <label class="formlabel noCenter" for="working">Working:</label><br>
             <select class="dropdown" name="working" id="working" required>
-                <option value="True">True</option>
-                <option value="False">False</option>
+                <option value="True" {% if current_user.working %} selected="selected" {% endif %}>True</option>
+                <option value="False" {% if (current_user.working == False) %} selected="selected" {% endif %}>False</option>
             </select>
         </div>
 
         <div class="left width33 formRowContainer">
-            <label class="formlabel noCenter" for="years">Years at Company:</label><br>
-            <input class="textInput" type="number" name="years" id="years" placeholder="Years" value="{{current_user.yearsAtCompany}}" required>          
+            <label class="formlabel noCenter" for="years_at_company">Years at Company:</label><br>
+            <input class="textInput" type="number" name="years_at_company" id="years_at_company" placeholder="Years" value="{{current_user.yearsAtCompany}}" required>          
         </div>
 
         <div class="clear">&nbsp;</div>
