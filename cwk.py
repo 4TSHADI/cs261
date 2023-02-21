@@ -6,6 +6,8 @@ from markupsafe import escape
 from flask import Flask, Response, make_response, render_template, render_template_string, request, redirect, flash, send_file
 from sqlalchemy import desc
 import os
+from datetime import datetime
+from sqlalchemy.sql.expression import func
 
 # -------------------------
 app = Flask(__name__)
@@ -18,7 +20,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 from db_schema import db, User, UserProjectRelation, Expense, ProjectMilestone, dbinit
 db.init_app(app)
 
-resetdb = False # Change to True to reset the database with the data defined in the db_schema.py file.
+resetdb = True # Change to True to reset the database with the data defined in the db_schema.py file.
 if resetdb:
     with app.app_context():
         # Drop everything, create all tables and populate with data
@@ -142,15 +144,19 @@ def expenses():
         # REMOVE HARDCODED VALUES
         try: 
             projectID = 1 # hardcoded for now - need to pass actual pid in
-            userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID)
+            userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=1).first().role
+
             if userRole.lower() in ["project manager", "business analyst"]:
-                new_expense = Expense(project_id=projectID, name=title, description=description,
-                amount=amount, timestamp=date)
+                prev_expense_id = db.session.query(func.max(Expense.expense_id)).first()[0]
+                if prev_expense_id == None: prev_expense_id = 0
+                new_expense = Expense(project_id=projectID, expense_id=prev_expense_id+1, name=title, 
+                description=description, amount=amount, timestamp=datetime.strptime(date, '%Y-%m-%d'))
                 db.session.add(new_expense)
                 db.session.commit()
-                flash("Expense created!", category="success")
+
+            flash("Expense created!", category="success")
         except:
-            pass
+            flash("Expense could not be created!", category="error")
     return render_template("expenses.html")
 
 
@@ -171,7 +177,7 @@ def milestones():
                 completed_date=None )
                 db.session.add(new_milestone)
                 db.session.commit()
-                flash("Milestone created!", category="success")
+                flash("Milestone created!", category="flashedSuccess")
         except:
             pass
     return render_template("milestones.html")

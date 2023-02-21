@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 from werkzeug import security
+import datetime
 
 
 # Create the database interface
@@ -118,7 +119,7 @@ class Expense(db.Model):
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text(), nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
+    timestamp = db.Column(db.DateTime(), nullable=False)
 
     def __init__(self, project_id, expense_id, name, description, amount, timestamp):
         self.project_id = project_id
@@ -199,10 +200,12 @@ class UserProjectRelation(db.Model):
 # This function is called when the database is reset (resetdb boolean=True in cwk.py file)
 # Put code in here to populate the database with dummy values.
 def dbinit():
-    user_list = [ # TODO: change this to be dummy data for the new user schema
+    user_project_relation_list = [UserProjectRelation(8, 1, True, "project manager")
     ]
-    
-    db.session.add_all(user_list)
+    project_list = [Project("test project", 8, 2000, datetime.datetime(2020, 5, 17), False)]
+
+    db.session.add_all(user_project_relation_list)
+    db.session.add_all(project_list)
 
     # Find the id of the user Bob
     # bob_id = User.query.filter_by(username="Bob").first().id
