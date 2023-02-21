@@ -72,6 +72,7 @@ class Technology(db.Model):
     __tablename__ = "technology"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
+
     user_technologies = db.relationship('UserTechnology', backref='technology', lazy=True)
     project_technologies = db.relationship('ProjectTechnology', backref='technology', lazy=True)
 
@@ -264,6 +265,10 @@ def dbinit():
     currencies = ["£", "$", "€", "¥"]
     currency_list = [Currency(x) for x in currencies]
     db.session.add_all(currency_list)
+
+    technologies = ["Python", "HTML", "SQLite", "SaaS", "Jinja", "AWS", "Azure"]
+    technology_list = [Technology(x) for x in technologies]
+    db.session.add_all(technology_list)
 
 
     # Commit all the changes to the database file.

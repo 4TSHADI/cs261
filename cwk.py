@@ -19,7 +19,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 from db_schema import db, User, Department, UserTechnology, Technology, ProjectTechnology, Project, Expense, Suggestion, ProjectMilestone, ProjectManagerSurvey, TeamMemberSurvey, UserProjectRelation, Language, Timezone, Currency, dbinit
 db.init_app(app)
 
-resetdb = True  # Change to True to reset the database with the data defined in the db_schema.py file.
+resetdb = False  # Change to True to reset the database with the data defined in the db_schema.py file.
 if resetdb:
     with app.app_context():
         # Drop everything, create all tables and populate with data
@@ -210,3 +210,86 @@ def edit_profile():
         currencies = db.session.query(Currency).all()
 
         return render_template("edit_profile.html", departments=departments, languages=languages, timezones=timezones, currencies=currencies)
+
+
+@app.route("/add_technology", methods=["POST", "GET"])
+@login_required
+def add_technology():
+    if request.method == "POST":
+        technology = request.form.get("technology")
+
+        # Check if technology already exists in database
+        exists = db.session.query(Technology).filter(Technology.name == technology).first()
+        if exists is not None:
+            print("Technology already exists in the database")
+            flash("Technology already exists", "message")
+            return redirect(request.referrer)
+
+        # Add new technology to database
+        try:
+            new_technology = Technology(technology)
+            db.session.add(new_technology)
+            db.session.commit()
+            flash("Technology added", "info")
+        except:
+            print("Error, unable to add technology")
+            flash("Unable to add technology", "error")
+            return redirect(request.referrer)
+
+        return redirect(request.referrer)
+    elif request.method == "GET":
+
+        return render_template("add_technology.html")
+
+@app.route("/user_technology", methods=["POST", "GET"])
+@login_required
+def user_technology():
+    if request.method == "POST":
+        technologies = db.session.query(Technology).all()
+        years = [[tech.id, tech.name, request.form.get(str(tech.id))] for tech in technologies]
+        
+        try:
+            # loop through zip of technologies and collected years experience
+            for entry in years:
+                id = entry[0]
+                name = entry[1]
+                years_exp = entry[2]
+
+                # Get row from database
+                row = db.session.query(UserTechnology).filter(UserTechnology.user_id==current_user.id, UserTechnology.technology_id==id).first()
+                if row is not None: # if row exists, update years value.
+                    # print("Row for " + name + " exists, updating value")
+                    row.yearsExperience = years_exp
+
+                else: # if row doesnt exist, create and insert
+                    # print("Row for " + name + " doesn't exist, creating row")
+                    new_row = UserTechnology(current_user.id, id, years_exp)
+                    db.session.add(new_row)
+
+            db.session.commit()
+        except:
+            print("error - user tech")
+            flash("Unable to update technologies", "error")
+            return redirect("/profile")
+
+        print("user technologies updated")
+        flash("Technologies updated", "message")
+        return redirect("/profile")
+    
+    elif request.method == "GET":
+        user_id = current_user.id
+        technologies = db.session.query(Technology).all()
+        
+        technology_list = []
+        for technology in technologies:
+            row  = db.session.query(UserTechnology).filter(UserTechnology.user_id == user_id, UserTechnology.technology_id == technology.id).first()
+            # print(row)
+
+            years_experience = row.yearsExperience if row else 0
+
+            tech_info = {"technology_id": technology.id, "name": technology.name, "years": years_experience}
+            technology_list.append(tech_info)
+        
+        # print(technology_list)
+
+        return render_template("user_technology.html", technologies = technology_list)
