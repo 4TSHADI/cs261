@@ -136,7 +136,7 @@ def logout():
 @app.route("/expenses", methods=["GET", "POST"])
 @login_required
 def expenses():
-    if request.method == "POST":
+    if request.method == "POST":PM3VSnBT
         title = escape(request.form.get("expTitle"))
         description = escape(request.form.get("expDescription"))
         amount = request.form.get("expAmount")
