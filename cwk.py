@@ -3,6 +3,7 @@ from xml.dom import NoModificationAllowedErr
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from werkzeug import security
+from werkzeug.utils import secure_filename
 from markupsafe import escape
 from flask import Flask, Response, make_response, render_template, render_template_string, request, redirect, flash, send_file
 from sqlalchemy import desc
@@ -11,6 +12,12 @@ import os
 # -------------------------
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
+
+# User file upload config
+UPLOAD_FOLDER = "./static/images/uploads/profiles"
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["MAX_UPLOAD_LENGTH"] = 4 * 1024 * 1024 # Set max file upload size to be 4 MB
 
 
 # Database config and import
@@ -151,6 +158,7 @@ def profile():
 @app.route("/edit_profile", methods=["POST", "GET"])
 @login_required
 def edit_profile():
+    # TODO: get new default avatar image with transparent background.
     if request.method == "POST":
         # Handle updating of user details.
         username = request.form.get("username")
@@ -201,6 +209,39 @@ def edit_profile():
             flash("Unable to update details", "error")
             return redirect("/profile")
 
+        # ----- Getting user profile image -----
+        # Check image file has been submitted
+        if "image_file" not in request.files:
+            flash("No file submitted", "error")
+            return redirect(request.url)
+        
+        image_file = request.files["image_file"]
+
+        # Addition checks user has selected a file.
+        if not image_file or image_file.filename == "":
+            flash("No file submitted", "error")
+            return redirect(request.url)
+        
+        # Check file extension
+        if "." not in image_file.filename:
+            flash("Invalid file uploaded")
+            return redirect(request.url)
+        file_extension = image_file.filename.rsplit(".", 1)[1].lower()
+        if file_extension not in ALLOWED_EXTENSIONS:
+            flash("Invalid file uploaded", "error")
+            return redirect(request.url)
+        
+        # Make filename the users username plus appropriate extension
+        # Overwrites file if already exists.
+        filename = secure_filename(current_user.username + "." + file_extension)
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        image_file.save(filepath)
+
+        # Insert file path into User table in database
+        user_data.profile_image_path = filepath
+        db.session.commit()
+        
+        flash("User details updated", "info")
         return redirect("/profile")
 
     elif request.method == "GET":
@@ -293,5 +334,4 @@ def user_technology():
         # print(technology_list)
 
         return render_template("user_technology.html", technologies = technology_list)
-
 
