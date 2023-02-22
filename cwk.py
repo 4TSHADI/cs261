@@ -134,6 +134,7 @@ def logout():
     return redirect("/")
 
 @app.route("/expenses", methods=["GET", "POST"])
+@login_required
 def expenses():
     if request.method == "POST":
         title = escape(request.form.get("expTitle"))
@@ -162,6 +163,7 @@ def expenses():
 
 
 @app.route("/milestones", methods=["GET", "POST"])
+@login_required
 def milestones():
     if request.method == "POST":
         title = escape(request.form.get("milTitle"))
