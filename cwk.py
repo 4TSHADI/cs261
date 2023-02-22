@@ -19,7 +19,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 from db_schema import db, User, Department, UserTechnology, Technology, ProjectTechnology, Project, Expense, Suggestion, ProjectMilestone, ProjectManagerSurvey, TeamMemberSurvey, UserProjectRelation, Language, Timezone, Currency, dbinit
 db.init_app(app)
 
-resetdb = False  # Change to True to reset the database with the data defined in the db_schema.py file.
+resetdb = True  # Change to True to reset the database with the data defined in the db_schema.py file.
 if resetdb:
     with app.app_context():
         # Drop everything, create all tables and populate with data
