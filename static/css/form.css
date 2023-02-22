@@ -28,6 +28,18 @@
     font-size: medium;
 }
 
+.dropdown {
+    padding: 10px;
+    margin: 10px 0px;
+    border: 0;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-family: inherit;
+    width: 100%;
+    font-size: medium;
+}
+
 .left {
     float: left;
 }

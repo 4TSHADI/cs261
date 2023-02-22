@@ -65,6 +65,10 @@ body {
     width: 90%;
 }
 
+.width33{
+    width: 33%;
+}
+
 #header {
     align-items: right;
     margin: 20px 5%;
