@@ -5,6 +5,7 @@
 
 /* Sets fonts to use */
 body {
+    background-color: #1e223f;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -23,7 +24,9 @@ body {
 .card {
     border-radius: 10px;
     padding: 5px 0px 15px 0px;
-    background: #f2f2f2;
+    background: #2fe5b2;
+    outline-color: #7231c8;
+
 }
 
 .color-secondary {
@@ -89,7 +92,7 @@ body {
     border-radius: 10px;
     margin: 5px;
     padding: 0 auto;
-    background-color: #2a81e4;
+    background-color: #7231c8;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -101,7 +104,7 @@ body {
 }
 
 .btn-primary-hover:hover {
-    background-color: #3a8dec;
+    background-color: #3a1867;
     transition: 0.25s;
 }
 

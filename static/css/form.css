@@ -2,6 +2,8 @@
     width: max(60%, 600px);
     margin: auto;
     text-align: left;
+    color: #2fe5b2;
+    outline: #7231c8;
     /* outline: 2px dashed green; */
 }
 
