@@ -1,0 +1,123 @@
+{% extends"base.html" %}
+{% block title%}Register{% endblock %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="static/css/form.css" type="text/css" charset="utf-8">
+<script src="static/js/edit_profile.js"></script>
+{% endblock %}
+
+{% block header %}
+{{super()}}
+{% endblock %}
+
+{% block main%}
+{{super()}}
+
+<h1>Edit Details</h1>
+
+<div class="formContainer">
+    <form id="edit_profile_form" action="/edit_profile" method="POST">
+        <div class="left width50 formRowContainer">
+            <label class="formlabel" for="username">Username:</label><br>
+            <input class="textInput" type="text" name="username" id="username" value="{{current_user.username}}" required disabled>
+        </div>
+
+        <div class="right width50 formRowContainer">
+            <label class="formlabel" for="password">Password:</label><br>
+            <input class="textInput" type="password" name="password" id="password" value="Password" required disabled>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+
+        <div class="left width50 formRowContainer">
+            <label class="formlabel" for="firstname">Firstname:</label><br>
+            <input class="textInput" type="text" name="firstname" id="firstname" value="{{current_user.firstname}}" required>
+        </div>
+
+        <div class="right width50 formRowContainer">
+            <label class="formlabel" for="lastname">Lastname:</label><br>
+            <input class="textInput" type="text" name="lastname" id="lastname" value="{{current_user.lastname}}" required>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+
+        <div class="formRowContainer">
+            <label class="formlabel" for="email">Email:</label><br>
+            <input class="textInput" type="text" name="email" id="email" value="{{current_user.email}}" required>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+
+        <div class="formRowContainer">
+            <label class="formlabel" for="phone_number">Phone Number:</label><br>
+            <input class="textInput" type="tel" name="phone_number" id="phone_number" value="{{current_user.phone_number}}" required>
+        </div>
+        
+        <div class="clear">&nbsp;</div>
+
+        <div class="formRowContainer">
+            <label class="formlabel noCenter" for="department">Department:</label><br>
+            <select class="dropdown" name="department" id="department" required>
+                {% for department in departments %}
+                    <option value="{{department.id}}" {% if (current_user.department_id == department.id) %} selected="selected" {% endif %}>{{department.name}}</option>
+                {% endfor %}
+            </select>
+
+        </div>
+
+        <div class="clear">&nbsp;</div>
+
+        <div class="left width50 formRowContainer">
+            <label class="formlabel noCenter" for="language">Language:</label><br>
+            <select class="dropdown" name="language" id="language" required>
+                {% for language in languages %}
+                    <option value="{{language.name}}" {% if (current_user.language == language.name) %} selected="selected" {% endif %}>{{language.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="right width50 formRowContainer">
+            <label class="formlabel noCenter" for="timezone">Timezone:</label><br>
+            <select class="dropdown" name="timezone" id="timezone" required>
+                {% for timezone in timezones %}
+                    <option value="{{timezone.name}}" {% if (current_user.timezone == timezone.name) %} selected="selected" {% endif %}>{{timezone.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+
+        <div class="left width33 formRowContainer">
+            <label class="formlabel noCenter" for="currency">Currency:</label><br>
+            <select class="dropdown" name="currency" id="currency" required>
+                {% for currency in currencies %}
+                    <option value="{{currency.name}}" {% if (current_user.currency == currency.name) %} selected="selected" {% endif %}>{{currency.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="left width33 formRowContainer">
+            <label class="formlabel noCenter" for="working">Working:</label><br>
+            <select class="dropdown" name="working" id="working" required>
+                <option value="True" {% if current_user.working %} selected="selected" {% endif %}>True</option>
+                <option value="False" {% if (current_user.working == False) %} selected="selected" {% endif %}>False</option>
+            </select>
+        </div>
+
+        <div class="left width33 formRowContainer">
+            <label class="formlabel noCenter" for="years_at_company">Years at Company:</label><br>
+            <input class="textInput" type="number" name="years_at_company" id="years_at_company" placeholder="Years" value="{{current_user.yearsAtCompany}}" required>          
+        </div>
+
+        <div class="clear">&nbsp;</div>
+
+        <div class="formRowContainer center">
+            <input class="btn-primary btn-primary-hover" type="submit" name="submit" id="submitbtn" value="Submit">
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock %}

@@ -6,6 +6,7 @@ from werkzeug import security
 import datetime
 
 
+
 # Create the database interface
 db = SQLAlchemy()
 
@@ -17,10 +18,10 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(80))
     firstname = db.Column(db.String(80))
     lastname = db.Column(db.String(80))
-    email = db.Column(db.String(120))
+    email = db.Column(db.String(120), unique = True)
     phone_number = db.Column(db.String(80))
     department_id = db.Column(db.Integer, db.ForeignKey('department.id'))
-    language = db.Column(db.String(80))
+    language = db.Column(db.String(80)) # TODO: change so it references the language table
     timezone = db.Column(db.String(80))
     currency = db.Column(db.String(80))
     working = db.Column(db.Boolean)
@@ -72,6 +73,7 @@ class Technology(db.Model):
     __tablename__ = "technology"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
+
     user_technologies = db.relationship('UserTechnology', backref='technology', lazy=True)
     project_technologies = db.relationship('ProjectTechnology', backref='technology', lazy=True)
 
@@ -173,11 +175,19 @@ class TeamMemberSurvey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    # TODO: add metrics we gather from survey here
+    experience = db.Column(db.Float, nullable=False)
+    working_environment = db.Column(db.Float, nullable=False)
+    hours_worked = db.Column(db.Integer, nullable=False)
+    communication = db.Column(db.Float, nullable=False)
 
-    def __init__(self, user_id, project_id):
+    def __init__(self, user_id, project_id, experience, working_environment, hours_worked, communication):
         self.user_id = user_id
         self.project_id = project_id
+        self.experience = experience
+        self.working_environment = working_environment
+        self.hours_worked = hours_worked
+        self.communication = communication
+
 
 class UserProjectRelation(db.Model):
     __tablename__ = 'user_project_relation'
@@ -193,22 +203,84 @@ class UserProjectRelation(db.Model):
         self.role = role
 
 
+class Language(db.Model):
+    __tablename__ = 'language'
+    name = db.Column(db.String(20), primary_key=True)
 
+    def __init__(self, name):
+        self.name = name
+    
+class Timezone(db.Model):
+    __tablename__ = 'timezone'
+    name = db.Column(db.String(20), primary_key=True)
 
+    def __init__(self, name):
+        self.name = name
+
+class Currency(db.Model):
+    __tablename__ = 'currency'
+    name = db.Column(db.String(20), primary_key=True)
+
+    def __init__(self, name):
+        self.name = name
+
+    
 
 
 # This function is called when the database is reset (resetdb boolean=True in cwk.py file)
 # Put code in here to populate the database with dummy values.
 def dbinit():
-    user_project_relation_list = [UserProjectRelation(8, 1, True, "project manager")
+    user_list = [ # TODO: change this to be dummy data for the new user schema
+        User("Mike18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7)
     ]
-    project_list = [Project("test project", 8, 2000, datetime.datetime(2020, 5, 17), False)]
-
-    db.session.add_all(user_project_relation_list)
-    db.session.add_all(project_list)
+    
+    db.session.add_all(user_list)
 
     # Find the id of the user Bob
     # bob_id = User.query.filter_by(username="Bob").first().id
+    project_list = [
+        Project("Project A", 1, 100000, func.now(), False),
+        Project("Project B", 2, 10, func.now(), False),
+        Project("Project C", 2, 999, func.now(), False),
+        Project("Project D", 1, 4568, func.now(), False),
+    ]
+    db.session.add_all(project_list)
+
+    userProjectRelaion_list = [
+        UserProjectRelation(1, 1, False, "Software Engineer"),
+        UserProjectRelation(1, 2, True, "Project Manager"),
+        UserProjectRelation(1, 3, False, "Software Engineer"),
+        UserProjectRelation(2, 1, True, "Project Manager"),
+        UserProjectRelation(2, 2, False, "Software Engineer")
+    ]
+    db.session.add_all(userProjectRelaion_list)
+
+
+    department_list = [
+        Department("Frontend", 1),
+        Department("Security", 1),
+        Department("API", 2),
+        Department("Backend", 3)
+    ]
+    db.session.add_all(department_list)
+
+    languages = ["English", "French", "Spanish", "German"]
+    languages_list = [Language(x) for x in languages]
+    db.session.add_all(languages_list)
+
+    timezones = [("GMT" + str(a) + str(n)) for a in ["+", "-"] for n in range(12)]
+    timezone_list = [Timezone(x) for x in timezones]
+    db.session.add_all(timezone_list)
+
+    currencies = ["£", "$", "€", "¥"]
+    currency_list = [Currency(x) for x in currencies]
+    db.session.add_all(currency_list)
+
+    technologies = ["Python", "HTML", "SQLite", "SaaS", "Jinja", "AWS", "Azure"]
+    technology_list = [Technology(x) for x in technologies]
+    db.session.add_all(technology_list)
+
 
     # Commit all the changes to the database file.
     db.session.commit()
