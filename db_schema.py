@@ -174,11 +174,19 @@ class TeamMemberSurvey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    # TODO: add metrics we gather from survey here
+    experience = db.Column(db.Float, nullable=False)
+    working_environment = db.Column(db.Float, nullable=False)
+    hours_worked = db.Column(db.Integer, nullable=False)
+    communication = db.Column(db.Float, nullable=False)
 
-    def __init__(self, user_id, project_id):
+    def __init__(self, user_id, project_id, experience, working_environment, hours_worked, communication):
         self.user_id = user_id
         self.project_id = project_id
+        self.experience = experience
+        self.working_environment = working_environment
+        self.hours_worked = hours_worked
+        self.communication = communication
+
 
 class UserProjectRelation(db.Model):
     __tablename__ = 'user_project_relation'
