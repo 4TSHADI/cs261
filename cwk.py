@@ -132,6 +132,57 @@ def logout():
         logout_user()
     return redirect("/")
 
+@app.route("/expenses", methods=["GET", "POST"])
+@login_required
+def expenses():
+    if request.method == "POST":PM3VSnBT
+        title = escape(request.form.get("expTitle"))
+        description = escape(request.form.get("expDescription"))
+        amount = request.form.get("expAmount")
+        date = request.form.get("expDate")
+
+        # carry out length checking in JS
+        # REMOVE HARDCODED VALUES
+        try: 
+            projectID = 1 # hardcoded for now - need to pass actual pid in
+            userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=1).first().role
+
+            if userRole.lower() in ["project manager", "business analyst"]:
+                prev_expense_id = db.session.query(func.max(Expense.expense_id)).first()[0]
+                if prev_expense_id == None: prev_expense_id = 0
+                new_expense = Expense(project_id=projectID, expense_id=prev_expense_id+1, name=title, 
+                description=description, amount=amount, timestamp=datetime.strptime(date, '%Y-%m-%d'))
+                db.session.add(new_expense)
+                db.session.commit()
+
+            flash("Expense created!", category="success")
+        except:
+            flash("Expense could not be created!", category="error")
+    return render_template("expenses.html")
+
+
+@app.route("/milestones", methods=["GET", "POST"])
+@login_required
+def milestones():
+    if request.method == "POST":
+        title = escape(request.form.get("milTitle"))
+        description = escape(request.form.get("milDescription"))
+        date = request.form.get("milDate")
+
+        # carry out length checking in JS
+        # REMOVE HARDCODED VALUES
+        #try: 
+        projectID = 1 # hardcoded for now - need to pass actual pid in
+        userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID).first().role
+        if userRole.lower() in ["project manager", "business analyst"]:
+            new_milestone = ProjectMilestone(project_id=projectID, title=title,description=description,
+            deadline=datetime.strptime(date, '%Y-%m-%d'), completed_date=None )
+            db.session.add(new_milestone)
+            db.session.commit()
+            flash("Milestone created!", category="success")
+        # except:
+        #     pass
+    return render_template("milestones.html")
 
 @app.route("/profile")
 @login_required
