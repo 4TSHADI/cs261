@@ -6,6 +6,7 @@ from werkzeug import security
 from markupsafe import escape
 from flask import Flask, Response, make_response, render_template, render_template_string, request, redirect, flash, send_file
 from sqlalchemy import desc
+from datetime import datetime, timedelta
 import os
 from datetime import datetime
 from sqlalchemy.sql.expression import func
@@ -348,3 +349,30 @@ def user_technology():
         return render_template("user_technology.html", technologies = technology_list)
 
 
+@app.route("/survey", methods=["GET","POST"])
+@login_required
+def survey():
+    project_id = request.form.get("project_id")
+    this_monday = datetime.utcnow().date() - timedelta(days=datetime.utcnow().date().weekday())
+    next_monday = this_monday + timedelta(weeks=1)
+
+    existing_survey = TeamMemberSurvey.query.filter_by(user_id=current_user.id, project_id=project_id).filter(TeamMemberSurvey.timestamp >= this_monday).first()
+    print(existing_survey)
+    if request.method == "POST":
+        # Get form fields
+        experience = escape(request.form.get("experience"))
+        working_environment = escape(request.form.get("working_environment"))
+        hours_worked = escape(request.form.get("hours_worked"))
+        communication = escape(request.form.get("communication"))
+
+        # Store survey results in database 
+        new_survey = TeamMemberSurvey(current_user.id, project_id, experience=str(experience), working_environment=str(working_environment), hours_worked=str(hours_worked), communication=str(communication),timestamp=datetime.utcnow())        
+        db.session.add(new_survey)
+        db.session.commit()
+
+        return redirect("/")
+    if existing_survey:
+        print("HELLOLOFEJFOEJFOJE")
+        return render_template("survey_not_available.html", next_monday=next_monday)
+    else:
+        return render_template('survey.html', project_id=project_id)
