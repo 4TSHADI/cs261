@@ -1,20 +1,57 @@
 .formContainer {
-    width: max(60%, 600px);
+    /* width: max(60%, 600px); */
     margin: auto;
     text-align: left;
     /* outline: 2px dashed green; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .formRowContainer {
     padding: 0px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* outline: 2px dashed red; */
 }
 
 .formlabel {
     text-align: left;
+    flex: 1;
 }
 
 .textInput {
+    padding: 10px;
+    margin: 10px 10px;
+    border: 0;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: medium;
+    width: 60%;
+}
+
+.expenses.textInput {
+    width: 25%;
+}
+
+/* .left {
+.dropdown {
+    padding: 10px;
+    margin: 10px 0px;
+    border: 0;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-family: inherit;
+    width: 100%;
+    font-size: medium;
+}
+
+.dropdown {
     padding: 10px;
     margin: 10px 0px;
     border: 0;
@@ -32,8 +69,13 @@
 
 .right {
     float: right;
-}
+} */
 
 .clear {
     clear: both;
+}
+
+textarea {
+    min-height: 60px;
+    max-width: 350px;
 }
