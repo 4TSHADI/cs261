@@ -299,7 +299,7 @@ def user_technology():
 @app.route("/survey", methods=["GET","POST"])
 @login_required
 def survey():
-    project_id =2
+    project_id = request.form.get("project_id")
     this_monday = datetime.utcnow().date() - timedelta(days=datetime.utcnow().date().weekday())
     next_monday = this_monday + timedelta(weeks=1)
 
