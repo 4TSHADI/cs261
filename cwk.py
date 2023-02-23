@@ -158,7 +158,6 @@ def profile():
 @app.route("/edit_profile", methods=["POST", "GET"])
 @login_required
 def edit_profile():
-    # TODO: get new default avatar image with transparent background.
     if request.method == "POST":
         # Handle updating of user details.
         username = request.form.get("username")
