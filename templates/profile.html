@@ -13,36 +13,92 @@
 {% block main%}
 {{super()}}
 
-<div class="">
-    <div class="noCenter profileContainer outline">
-        <h1>Username: {{ current_user.username }}</h1>
-        <h2>Name: {{ current_user.firstname }} {{ current_user.lastname }} </h2>
-        <h2>Email: {{ current_user.email }}</h2>
-        <h2>Phone no.: {{ current_user.phone_number }}</h2>
-        <h2>Department: {{ user_department.name }}</h2>
-
-        <br>
-
-        <h2>Projects:</h2>
-        <ul>
-            {% for project in user_projects %}
-            <a href="/project/{{ project.id }}">
-                <li href="/project/{{ project.id }}">{{ project.name }}</li>
-            </a>
-            {% endfor %}
-        </ul>
-
-        <a href="/edit_profile">
-            <h3>Edit profile</h3>
-        </a>
-        <a href="/add_technology">
-            <h3>Add Technology</h3>
-        </a>
-        <a href="/user_technology">
-            <h3>Your Technology</h3>
-        </a>
-
+<div class="row py-5 px-4">
+    <div class="col-md-5 mx-auto"> <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    <a href="edit_profile" ><div class="profile mr-3"><img src="static/images/profilepic.jpg" alt="" width="130"></div>
+                                <button class="glow-on-hover" type="button"><h3>Edit profile</h3>
+                                </button></a>
+                                <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0">Mark Williams</h4>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="noCenter profileContainer outline">
+                    <h1>Username: {{ current_user.username }}</h1>
+                    <h2>Name: {{ current_user.firstname }} {{ current_user.lastname }} </h2>
+                    <h2>Email: {{ current_user.email }}</h2>
+                    <h2>Phone no.: {{ current_user.phone_number }}</h2>
+                    <h2>Department: {{ user_department.name }}</h2>
+            
+                    <br>
+            
+                    <h2>Projects:</h2>
+                    <ul>
+                        {% for project in user_projects %}
+                        <a href="/project/{{ project.id }}">
+                            <li href="/project/{{ project.id }}">{{ project.name }}</li>
+                        </a>
+                        {% endfor %}
+                    </ul>
+            
+                    <a href="/edit_profile">
+                        <button class="glow-on-hover" type="button"><h3>Edit profile</h3>
+                        </button>
+                    </a>
+                    <a href="/add_technology">
+                        <button class="glow-on-hover" type="button"><h3>Add Technology</h3>
+                        </button>
+                    </a>
+                    <a href="/user_technology">
+                        <button class="glow-on-hover" type="button"><h3>Your Technology</h3>
+                        </button>
+                    </a>
+            
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i
+                                class="fas fa-image mr-1"></i>Photos</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i
+                                class="fas fa-user mr-1"></i>Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i
+                                class="fas fa-user mr-1"></i>Following</small>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-3">
+                <h5 class="mb-0">About</h5>
+                <div class="p-4 rounded shadow-sm bg-light">
+                    <p class="font-italic mb-0">Web Developer</p>
+                    <p class="font-italic mb-0">Lives in New York</p>
+                    <p class="font-italic mb-0">Photographer</p>
+                </div>
+            </div>
+            <div class="py-4 px-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-2 pr-lg-1"><img alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 mb-2 pl-lg-1"><img alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 pr-lg-1 mb-2"><img alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 pl-lg-1"><img alt="" class="img-fluid rounded shadow-sm"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-    
+
+
 {% endblock %}

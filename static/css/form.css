@@ -1,7 +1,50 @@
-.formContainer {
+
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}.formContainer {
     width: max(60%, 600px);
     margin: auto;
     text-align: left;
+    color: #2fe5b2;
+    outline: #7231c8;
     /* outline: 2px dashed green; */
 }
 
@@ -15,18 +58,6 @@
 }
 
 .textInput {
-    padding: 10px;
-    margin: 10px 0px;
-    border: 0;
-    border-bottom: 1px solid #eee;
-    box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-    font-family: inherit;
-    width: 100%;
-    font-size: medium;
-}
-
-.dropdown {
     padding: 10px;
     margin: 10px 0px;
     border: 0;

@@ -1,54 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        {% block head %}
-        <link rel="icon" type="image/x-icon" href="../static/images/logo-blue.png">
-        <link rel="stylesheet" href="static/css/main.css" type="text/css"charset="utf-8">
-        <script src="static/js/jquery-3.6.0.min.js"></script>
+<head>
+    {% block head %}
+    <!-- <link rel="icon" type="image/x-icon" href="../static/images/logo-blue.png"> -->
+    <link rel="stylesheet" href="static/css/main.css" type="text/css" charset="utf-8">
+    <script src="static/js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
-        <title>{% block title%}{% endblock %}</title>
+    <title>{% block title%}{% endblock %}</title>
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="account">
+                <a href="profile"><div class="avatar">
+                     <img src="static/images/profilepic.jpg" alt="">
+                </div>
+                <div class="name">
+                    <h4>Name Surname</h4>
+                    Position
+                </div></a>
+            </div>
+            <div class="sidebartop">
+                <div class="menu">
+                    <i class="bi bi-list"></i>
+                </div>
+            </div>
+            <nav>
+                <ul></a>
+                    <li><a href="home"><i class="bi bi-speedometer"></i><span class="text">Home</span></a></li>
+                    <li><a href="dashboard"><i class="bi bi-file-earmark"></i><span class="text">Dashboard</span></a></li>
+                    <li><a href="projects"><i class="bi bi-pencil-square"></i><span class="text">Projects</span></a></li>
+                    <li><a href="user_technology"><i class="bi bi-people"></i><span class="text">MyTechnologies</span></a></li>
+                    <li><a href="survey"><i class="bi bi-gear"></i><span class="text">Survey</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="static/js/base.js"></script>
+
+    <div class="wrapper">
+        <div class="section">
+            <div class="top_navbar">
+            </div>
+            <div id="header" class="card">
+                {% block header %}
+                <!-- <img id="logo" src="../static/images/logo-blue.png" alt="Logo"> -->
+
+                {% if current_user.is_authenticated %}
+                <button class="btn-primary btn-primary-hover" type="button"
+                    onclick="location.href='/logout'">Logout</button>
+                <button class="btn-primary btn-primary-hover" type="button"
+                    onclick="location.href='/profile'">Profile</button>
+                {% else %}
+                <button class="btn-primary btn-primary-hover" type="button"
+                    onclick="location.href='/register'">Register</button>
+                <button class="btn-primary btn-primary-hover" type="button"
+                    onclick="location.href='/login'">Login</button>
+                {% endif %}
+
+                {% endblock%}
+            </div>
+        </div>
+    </div>
+
+    <div id="mainContent" class="center card">
+        {% if current_user.is_authenticated %}
+        <div class="titlestyle">
+                Hello {{ current_user.username }} 
+        </div>
+        {% endif %}
+
+        {% block main %}
+
         {% endblock %}
-    </head>
+    </div>
 
-    <body>
-
-        <div id="header" class="card">
-            {% block header %}
-            <img id="logo" src="../static/images/logo-blue.png" alt="Logo">
-                    
-            {% if current_user.is_authenticated %}
-                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/logout'">Logout</button>
-                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/profile'">Profile</button>
-            {% else %}
-                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/register'">Register</button>
-                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/login'">Login</button>
-            {% endif %}
-
-            {% endblock%}
+    <div class="center" id="messageBox">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="flashedMessage">
+            {{ message }}
         </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+</body>
 
-        <div id="mainContent" class="center card">
-            {% if current_user.is_authenticated %}
-                <h1>Hello {{ current_user.username }}</h1>
-            {% endif %}
+<footer class="footer-distributed">
 
-            {% block main %}
-            
-            {% endblock %}
-        </div>
+    <div class="footer-right">
 
-        <div class="center" id="messageBox">
-            {% with messages = get_flashed_messages() %}  
-                {% if messages %}  
-                    {% for message in messages %}  
-                        <div class="flashedMessage">
-                            {{ message }}
-                        </div>
-                    {% endfor %}  
-                {% endif %}  
-            {% endwith %} 
-        </div>
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-github"></i></a>
 
-    </body>
+    </div>
+
+    <div class="footer-left">
+
+
+        <p>Company Name &copy; 2023</p>
+    </div>
+
+</footer>
+
 </html>
