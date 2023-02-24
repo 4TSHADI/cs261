@@ -26,6 +26,7 @@ class User(UserMixin, db.Model):
     currency = db.Column(db.String(80))
     working = db.Column(db.Boolean)
     yearsAtCompany = db.Column(db.Integer)
+    profile_image_path = db.Column(db.String(100))
 
     technologies = db.relationship('UserTechnology', backref='user', lazy=True)
     department = db.relationship('Department', backref='user', uselist=False)
@@ -34,7 +35,7 @@ class User(UserMixin, db.Model):
 
 
     def __init__(self, username, password, firstname, lastname, email, phone_number, department_id, language,
-                    timezone, currency, working, yearsAtCompany):
+                    timezone, currency, working, yearsAtCompany, profile_image_path="./static/images/uploads/profiles/default.png"):
         self.username = username
         self.password = password
         self.firstname = firstname
@@ -47,6 +48,7 @@ class User(UserMixin, db.Model):
         self.currency = currency
         self.working = working
         self.yearsAtCompany = yearsAtCompany
+        self.profile_image_path = profile_image_path
 
 class Department(db.Model):
     __tablename__ = "department"

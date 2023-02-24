@@ -1,5 +1,5 @@
 .profileContainer {
     width: max(70%, 600px);
     margin: auto;
-    height: 700px;
+    height: auto;
 }
