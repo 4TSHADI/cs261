@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 from werkzeug import security
+import datetime
 
 
 
@@ -122,7 +123,7 @@ class Expense(db.Model):
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text(), nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
+    timestamp = db.Column(db.DateTime(), nullable=False)
 
     def __init__(self, project_id, expense_id, name, description, amount, timestamp):
         self.project_id = project_id
@@ -180,14 +181,16 @@ class TeamMemberSurvey(db.Model):
     working_environment = db.Column(db.Float, nullable=False)
     hours_worked = db.Column(db.Integer, nullable=False)
     communication = db.Column(db.Float, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self, user_id, project_id, experience, working_environment, hours_worked, communication):
+    def __init__(self, user_id, project_id, experience, working_environment, hours_worked, communication, timestamp):
         self.user_id = user_id
         self.project_id = project_id
         self.experience = experience
         self.working_environment = working_environment
         self.hours_worked = hours_worked
         self.communication = communication
+        self.timestamp = timestamp
 
 
 class UserProjectRelation(db.Model):
@@ -238,6 +241,8 @@ def dbinit():
     
     db.session.add_all(user_list)
 
+    # Find the id of the user Bob
+    # bob_id = User.query.filter_by(username="Bob").first().id
     project_list = [
         Project("Project A", 1, 100000, func.now(), False),
         Project("Project B", 2, 10, func.now(), False),

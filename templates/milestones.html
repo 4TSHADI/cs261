@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title%}Milestones{% endblock %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="static/css/form.css" type="text/css" charset="utf-8">
+<script src="static/js/milestones.js"></script>
+{% endblock %}
+
+{% block header %}
+{{super()}}
+{% endblock %}
+
+{% block main%}
+{{super()}}
+
+<h1>Project Milestones</h1>
+<p>Enter project milestone details below</p>
+
+<form id="milestonesForm" action="#" method="POST">
+    <input class="textInput expenses" type="text" name="milTitle" id="milTitle" placeholder="Milestone Title" ><br><br>
+
+    <textarea rows="4" cols="50" class="textInput" type="text" name="milDescription" id="milDescription" placeholder="Description" ></textarea><br><br>
+
+    <input class="textInput expenses" type="date"  name="milDate" id="milDate" placeholder="Deadline"><br><br>
+
+    <input type="hidden" id="projID" name="projID" value= "{{ projectid }}"> <!-- change value to be value entered from prev page -->
+    
+    <input class="btn-primary btn-primary-hover" type="submit" name="submit" id="milSubmitBtn" value="Submit">
+</form>
+
+{% endblock %}
+
+<!-- add error messages if no data entered -->

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Survey Not Available{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block header %}
+    {{ super() }}
+{% endblock %}
+
+{% block main %}
+    {{ super() }}
+
+    <h1>Survey Not Available</h1>
+    <p>You have already submitted a survey for this project within the last week. Please come back on {{ next_monday.strftime('%A, %b %d, %Y') }} to submit a new survey.</p>
+{% endblock %}

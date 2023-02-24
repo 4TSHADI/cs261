@@ -7,7 +7,10 @@ from werkzeug.utils import secure_filename
 from markupsafe import escape
 from flask import Flask, Response, make_response, render_template, render_template_string, request, redirect, flash, send_file
 from sqlalchemy import desc
+from datetime import datetime, timedelta
 import os
+from datetime import datetime
+from sqlalchemy.sql.expression import func
 
 # -------------------------
 app = Flask(__name__)
@@ -138,6 +141,57 @@ def logout():
         logout_user()
     return redirect("/")
 
+@app.route("/expenses", methods=["GET", "POST"])
+@login_required
+def expenses():
+    if request.method == "POST":
+        title = escape(request.form.get("expTitle"))
+        description = escape(request.form.get("expDescription"))
+        amount = request.form.get("expAmount")
+        date = request.form.get("expDate")
+
+        # carry out length checking in JS
+        # REMOVE HARDCODED VALUES
+        try: 
+            projectID = 1 # hardcoded for now - need to pass actual pid in
+            userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=1).first().role
+
+            if userRole.lower() in ["project manager", "business analyst"]:
+                prev_expense_id = db.session.query(func.max(Expense.expense_id)).first()[0]
+                if prev_expense_id == None: prev_expense_id = 0
+                new_expense = Expense(project_id=projectID, expense_id=prev_expense_id+1, name=title, 
+                description=description, amount=amount, timestamp=datetime.strptime(date, '%Y-%m-%d'))
+                db.session.add(new_expense)
+                db.session.commit()
+
+            flash("Expense created!", category="success")
+        except:
+            flash("Expense could not be created!", category="error")
+    return render_template("expenses.html")
+
+
+@app.route("/milestones", methods=["GET", "POST"])
+@login_required
+def milestones():
+    if request.method == "POST":
+        title = escape(request.form.get("milTitle"))
+        description = escape(request.form.get("milDescription"))
+        date = request.form.get("milDate")
+
+        # carry out length checking in JS
+        # REMOVE HARDCODED VALUES
+        #try: 
+        projectID = 1 # hardcoded for now - need to pass actual pid in
+        userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID).first().role
+        if userRole.lower() in ["project manager", "business analyst"]:
+            new_milestone = ProjectMilestone(project_id=projectID, title=title,description=description,
+            deadline=datetime.strptime(date, '%Y-%m-%d'), completed_date=None )
+            db.session.add(new_milestone)
+            db.session.commit()
+            flash("Milestone created!", category="success")
+        # except:
+        #     pass
+    return render_template("milestones.html")
 
 @app.route("/profile")
 @login_required
@@ -334,3 +388,31 @@ def user_technology():
 
         return render_template("user_technology.html", technologies = technology_list)
 
+
+@app.route("/survey", methods=["GET","POST"])
+@login_required
+def survey():
+    project_id = request.form.get("project_id")
+    this_monday = datetime.utcnow().date() - timedelta(days=datetime.utcnow().date().weekday())
+    next_monday = this_monday + timedelta(weeks=1)
+
+    existing_survey = TeamMemberSurvey.query.filter_by(user_id=current_user.id, project_id=project_id).filter(TeamMemberSurvey.timestamp >= this_monday).first()
+    print(existing_survey)
+    if request.method == "POST":
+        # Get form fields
+        experience = escape(request.form.get("experience"))
+        working_environment = escape(request.form.get("working_environment"))
+        hours_worked = escape(request.form.get("hours_worked"))
+        communication = escape(request.form.get("communication"))
+
+        # Store survey results in database 
+        new_survey = TeamMemberSurvey(current_user.id, project_id, experience=str(experience), working_environment=str(working_environment), hours_worked=str(hours_worked), communication=str(communication),timestamp=datetime.utcnow())        
+        db.session.add(new_survey)
+        db.session.commit()
+
+        return redirect("/")
+    if existing_survey:
+        print("HELLOLOFEJFOEJFOJE")
+        return render_template("survey_not_available.html", next_monday=next_monday)
+    else:
+        return render_template('survey.html', project_id=project_id)
