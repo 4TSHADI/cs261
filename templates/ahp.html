@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title%}Milestones{% endblock %}
+{% block title%}AHP Survey{% endblock %}
 
 {% block head %}
 {{super()}}
 <link rel="stylesheet" href="static/css/ahp.css" type="text/css" charset="utf-8">
-<!-- <script src="static/js/milestones.js"></script> -->
+<script src="static/js/ahp_questions.js" defer></script>
 {% endblock %}
 
 {% block header %}
@@ -16,13 +16,15 @@
 
     <div id="container">
         <div class="title">PRIORITIES</div>
-        <div id="question">lmaooooooooo</div>
-        <div id="ans-btns" class="btn-grid">
-            <button class="btn">Answer 1</button>
-            <div class="text">OR</div>
-            <button class="btn">Answer 2</button>
-            <button class="btn">Answer 3</button>
-        </div>
+        <!-- <div id="question-container" class="hide"> -->
+            <div id="question">Question Here</div>
+            <div id="ans-btns" class="btn-grid">
+                <button class="btn">Answer 1</button>
+                <span class="text">OR</span>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+            </div>
+        <!-- </div> -->
         <div class="controls">
             <button id="prev-btn" class="prev-btn btn hide">Back</button>
         </div>

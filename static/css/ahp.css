@@ -103,6 +103,12 @@ body {
     box-sizing: border-box;
   }
 
+  @media only screen and (max-width: 950px) {
+    .text {
+      display: none;
+    }
+    
+  }
   
 
 /* #ans-btns button:last-child{flex:0 40%;} */
