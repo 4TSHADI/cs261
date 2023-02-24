@@ -181,7 +181,7 @@ class TeamMemberSurvey(db.Model):
     working_environment = db.Column(db.Float, nullable=False)
     hours_worked = db.Column(db.Integer, nullable=False)
     communication = db.Column(db.Float, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=func.now())
 
     def __init__(self, user_id, project_id, experience, working_environment, hours_worked, communication, timestamp):
         self.user_id = user_id
