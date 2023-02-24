@@ -5,6 +5,10 @@
 {{super()}}
 <link rel="stylesheet" href="static/css/ahp.css" type="text/css" charset="utf-8">
 <script src="static/js/ahp_questions.js" defer></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/path/to/tipso.css">
+<script src="/path/to/tipso.js"></script>
+<link rel="stylesheet" href="/path/to/animate.css">
 {% endblock %}
 
 {% block header %}
@@ -13,6 +17,7 @@
 
 {% block main%}
 <!-- {{super()}} -->
+
 
     <div id="container">
         <div class="title">PRIORITIES</div>
@@ -25,7 +30,7 @@
                 <button class="btn">Answer 3</button>
             </div>
         <!-- </div> -->
-        <div class="controls">
+        <div id="controls">
             <button id="prev-btn" class="prev-btn btn hide">Back</button>
         </div>
     </div>
