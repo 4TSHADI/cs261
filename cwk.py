@@ -185,6 +185,12 @@ def milestones():
         #     pass
     return render_template("milestones.html")
 
+
+@app.route("/ahp", methods=["GET", "POST"])
+# @login_required
+def ahp():
+    return render_template("ahp.html")
+
 @app.route("/profile")
 @login_required
 def profile():

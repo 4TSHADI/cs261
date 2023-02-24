@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+body {
+    font-family: 'Inter', sans-serif;
+}
+#container {
+    border-radius: 10px;
+    padding: 5px 0px 15px 0px;
+    background-color: rgb(47, 27, 194);
+    border-radius: 5px;
+    box-shadow: 0 0 10px 2px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 0;
+  }
+
+#mainContent.card {
+    background: none;
+    z-index: 0;
+}
+
+#ans-btns {
+    padding: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 50%;
+  }
+  
+  .btn {
+    flex: 0 0 calc(36.66% - 10px);
+    color: white;
+    padding: 30px 20px;
+    margin: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: 
+    linear-gradient(rgb(47, 27, 194) 0 0) padding-box, 
+    linear-gradient(to right, #eaa570, #f18568, #f1626f, #e73e84,rgb(80, 58, 210),
+    #cc23a1, #b523b0, #972ac0, #6b35ce, #5e37d0,
+    #503ad2, #3d3cd4, #223ed6) border-box;
+    border: 5px solid transparent;
+    border-radius: 10px;
+    display: inline-block;
+    -webkit-box-shadow: 5px 6px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 6px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 6px 5px 0px rgba(0,0,0,0.75);
+  }
+
+  .btn:hover {
+    background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
+    border-color: black;
+  }
+
+  .prev-btn {
+    padding: 10px 20px;
+  }
+
+  .title {
+    font: 33px sans-serif;
+    color: white;
+    margin: 30px;
+    padding-left: 30px;
+    position: relative;
+    text-align: left;
+    text-transform: uppercase;
+    width: 100%;
+    z-index: 2; 
+    
+  }
+
+  .title:before {
+    /* border-top: 5px solid rgb(2,0,36); */
+    background-image: linear-gradient(to right, #eaa570, #f18568, #f1626f, #e73e84,rgb(80, 58, 210),
+    #cc23a1, #b523b0, #972ac0, #6b35ce, #5e37d0,
+    #503ad2, #3d3cd4, #223ed6);
+    content:"";
+    margin: 0 auto;
+    position: absolute;
+    top: 20px; left: 0; right: 0; bottom: 15px;
+    width: 100%;
+    z-index: -1;
+}
+
+  #question {
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
+  }
+
+   .text {
+    margin: auto;
+    text-align: center;
+    font-size: 1.5rem;
+    color: white;
+  } 
+
+  * {
+    box-sizing: border-box;
+  }
+
+  
+
+/* #ans-btns button:last-child{flex:0 40%;} */
