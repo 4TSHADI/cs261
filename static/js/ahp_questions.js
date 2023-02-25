@@ -143,19 +143,22 @@ const questions = [
     }
 ]
 
-nextQuestion();
+nextQuestion(false);
 
 prevBtn.addEventListener("click", () => {
     if (questionNum > 0) {
         questionNum--;
         if (questionNum == 0){prevBtn.classList.add('hide');}
-        nextQuestion();
+        nextQuestion(true);
     }
 })
 
-function nextQuestion() {
+function nextQuestion(buttonPressed) {
     removeBtns();
     displayQuestion(questions[questionNum]);
+    if (buttonPressed) {
+        undoMatrix();
+    }
 }
 
 function selectAnswer(e) {
@@ -185,7 +188,7 @@ function displayQuestion(question) {
         btn.addEventListener("click", () => {
             populateMatrix(opt1, opt2, btn.innerText);
             questionNum++;
-            nextQuestion();
+            nextQuestion(false);
         });
     
 
@@ -220,6 +223,19 @@ function populateMatrix(ans1, ans2, chosenAns) {
         console.log(matrix[row]);
     }
     console.log("------------------------------------------");
+}
+
+function undoMatrix() {
+    let question = questions[questionNum];
+    indx1 = factors.indexOf(question.answers[0].text);
+    indx2 = factors.indexOf(question.answers[1].text);
+    matrix[indx1][indx2] = 0;
+    matrix[indx2][indx1] = 0;
+    // for (var row = 0; row < matrix.length; row++) {
+    //     console.log(matrix[row]);
+    // }
+    // console.log("------------------------------------------");
+
 }
 
 
