@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="static/css/projects.css" type="text/css" charset="utf-8">
+{% block title %} PROJECTS {% endblock %}
+
+{% endblock %}
+
+{% block header %}
+{{super()}}
+
+{% endblock %}
+
+{% block main%}
+{{super()}}
+
+{% block content%}
+
+<div class="row">
+    <div class="col-sm-2">
+        <div class="card">
+            <div id="page" class="page">
+                <div class="new-project">
+                    <a href="priorities"><h3>new project</h3></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <div class="card">
+            <div id="page" class="page">
+                <div class="progress">
+                    <span class="title timer" data-from="0" data-to="20" data-speed="1500">25</span>
+                    <div class="overlay"></div>
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+                <div class="card-inner">
+                    <div class="header">
+                        <h2>Project name</h2>
+                    </div>
+                    <div class="description">
+                        <p>short description</p>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <a href=projectdashboard class="btn btn-link btn-block">
+                        DETAILS
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% endblock %}
