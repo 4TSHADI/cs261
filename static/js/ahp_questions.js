@@ -4,9 +4,21 @@ const answerBtns = document.getElementById("ans-btns");
 const prevBtn = document.getElementById("prev-btn");
 const controls = document.getElementById("controls");
 
+const more = 3 // value for factors rated more significant
+const less = 1/3 // value for factors rated less significant
+const same = 1 // value for factors rated equally significant
 
+let matrix = new Array(6).fill(0).map(() => new Array(6).fill(0));
+
+for (index = 0; index < matrix.length; index++) { // factors compared against themselves have val 1
+    matrix[index][index] = 1;
+}
 
 let questionNum = 0;
+
+const factors = ["Size and experience level of team", "Satisfiability with work environment and project scope",
+"Project budget", "Efficient time management and weekly hours of work","Quality of code and Git pull requests",
+"Frequency and effectiveness of communication within team and with stakeholders"];
 
 const questions = [
     {
@@ -147,6 +159,7 @@ function nextQuestion() {
 }
 
 function selectAnswer(e) {
+
     if (questions.length <= questionNum) {
         window.location.href = "/profile";
     }
@@ -163,11 +176,14 @@ function removeBtns() {
 
 function displayQuestion(question) {
     questionText.innerText = question.question;
+    let opt1 = question.answers[0].text;
+    let opt2 = question.answers[1].text;
     question.answers.forEach(answer => {
         const btn = document.createElement("button");
         btn.innerText = answer.text;
         btn.classList.add("btn");
         btn.addEventListener("click", () => {
+            populateMatrix(opt1, opt2, btn.innerText);
             questionNum++;
             nextQuestion();
         });
@@ -176,6 +192,34 @@ function displayQuestion(question) {
         btn.addEventListener("click", selectAnswer);
         answerBtns.appendChild(btn);
     });
+}
+
+function populateMatrix(ans1, ans2, chosenAns) {
+    let chosenIndex, otherIndex;
+    if (chosenAns == "Both Equally") {
+        indx1 = factors.indexOf(ans1);
+        indx2 = factors.indexOf(ans2);
+        matrix[indx1][indx2] = same;
+        matrix[indx2][indx1] = same;      
+        return ;
+    }
+    else if (chosenAns == ans1) {
+        chosenIndex = factors.indexOf(ans1);
+        otherIndex = factors.indexOf(ans2);
+    }
+    else {
+        chosenIndex = factors.indexOf(ans2);
+        otherIndex = factors.indexOf(ans1);
+    }
+    matrix[otherIndex][chosenIndex] = more;
+    matrix[chosenIndex][otherIndex] = less;
+
+
+
+    for (var row = 0; row < matrix.length; row++) {
+        console.log(matrix[row]);
+    }
+    console.log("------------------------------------------");
 }
 
 
