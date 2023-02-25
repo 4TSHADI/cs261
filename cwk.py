@@ -3,9 +3,11 @@ from xml.dom import NoModificationAllowedErr
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from werkzeug import security
+from werkzeug.utils import secure_filename
 from markupsafe import escape
 from flask import Flask, Response, make_response, render_template, render_template_string, request, redirect, flash, send_file
 from sqlalchemy import desc
+from datetime import datetime, timedelta
 import os
 from datetime import datetime
 from sqlalchemy.sql.expression import func
@@ -13,6 +15,12 @@ from sqlalchemy.sql.expression import func
 # -------------------------
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
+
+# User file upload config
+UPLOAD_FOLDER = "./static/images/uploads/profiles"
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["MAX_UPLOAD_LENGTH"] = 4 * 1024 * 1024 # Set max file upload size to be 4 MB
 
 
 # Database config and import
@@ -260,6 +268,39 @@ def edit_profile():
             flash("Unable to update details", "error")
             return redirect("/profile")
 
+        # ----- Getting user profile image -----
+        # Check image file has been submitted
+        if "image_file" not in request.files:
+            flash("No file submitted", "error")
+            return redirect(request.url)
+        
+        image_file = request.files["image_file"]
+
+        # Addition checks user has selected a file.
+        if not image_file or image_file.filename == "":
+            flash("No file submitted", "error")
+            return redirect(request.url)
+        
+        # Check file extension
+        if "." not in image_file.filename:
+            flash("Invalid file uploaded")
+            return redirect(request.url)
+        file_extension = image_file.filename.rsplit(".", 1)[1].lower()
+        if file_extension not in ALLOWED_EXTENSIONS:
+            flash("Invalid file uploaded", "error")
+            return redirect(request.url)
+        
+        # Make filename the users username plus appropriate extension
+        # Overwrites file if already exists.
+        filename = secure_filename(current_user.username + "." + file_extension)
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        image_file.save(filepath)
+
+        # Insert file path into User table in database
+        user_data.profile_image_path = filepath
+        db.session.commit()
+        
+        flash("User details updated", "info")
         return redirect("/profile")
 
     elif request.method == "GET":
@@ -354,3 +395,30 @@ def user_technology():
         return render_template("user_technology.html", technologies = technology_list)
 
 
+@app.route("/survey", methods=["GET","POST"])
+@login_required
+def survey():
+    project_id = request.form.get("project_id")
+    this_monday = datetime.utcnow().date() - timedelta(days=datetime.utcnow().date().weekday())
+    next_monday = this_monday + timedelta(weeks=1)
+
+    existing_survey = TeamMemberSurvey.query.filter_by(user_id=current_user.id, project_id=project_id).filter(TeamMemberSurvey.timestamp >= this_monday).first()
+    print(existing_survey)
+    if request.method == "POST":
+        # Get form fields
+        experience = escape(request.form.get("experience"))
+        working_environment = escape(request.form.get("working_environment"))
+        hours_worked = escape(request.form.get("hours_worked"))
+        communication = escape(request.form.get("communication"))
+
+        # Store survey results in database 
+        new_survey = TeamMemberSurvey(current_user.id, project_id, experience=str(experience), working_environment=str(working_environment), hours_worked=str(hours_worked), communication=str(communication),timestamp=datetime.utcnow())        
+        db.session.add(new_survey)
+        db.session.commit()
+
+        return redirect("/")
+    if existing_survey:
+        print("HELLOLOFEJFOEJFOJE")
+        return render_template("survey_not_available.html", next_monday=next_monday)
+    else:
+        return render_template('survey.html', project_id=project_id)

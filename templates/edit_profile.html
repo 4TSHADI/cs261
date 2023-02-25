@@ -17,7 +17,7 @@
 <h1>Edit Details</h1>
 
 <div class="formContainer">
-    <form id="edit_profile_form" action="/edit_profile" method="POST">
+    <form id="edit_profile_form" action="/edit_profile" method="POST" enctype="multipart/form-data">
         <div class="left width50 formRowContainer">
             <label class="formlabel" for="username">Username:</label><br>
             <input class="textInput" type="text" name="username" id="username" value="{{current_user.username}}" required disabled>
@@ -111,6 +111,11 @@
         </div>
 
         <div class="clear">&nbsp;</div>
+
+        <div class="formRowContainer">
+            <label class="formLabel noCenter" for="image_file">Profile Image:</label>
+            <input type="file" id="image_file" name="image_file" accept=".png,.jpg,.jpeg,.gif">
+        </div>
 
         <div class="formRowContainer center">
             <input class="btn-primary btn-primary-hover" type="submit" name="submit" id="submitbtn" value="Submit">
