@@ -12,37 +12,60 @@
 
 {% block main%}
 {{super()}}
-
-<div class="">
-    <div class="noCenter profileContainer outline">
-        <h1>Username: {{ current_user.username }}</h1>
-        <h2>Name: {{ current_user.firstname }} {{ current_user.lastname }} </h2>
-        <h2>Email: {{ current_user.email }}</h2>
-        <h2>Phone no.: {{ current_user.phone_number }}</h2>
-        <h2>Department: {{ user_department.name }}</h2>
-
+<div class="profile-card" style="padding-bottom: 0px;padding-top: 0px;margin-top: 0px;">
+    <div class="profile-back" style="margin-bottom: -73px;"></div><img class="rounded-circle profile-pic" src="../static/images/profilepic.jpg" width="150" height="150" style="margin-right: -2px;padding-right: 0px;padding-left: 0px;padding-top: 0px;padding-bottom: 0px;margin-bottom: 28px;">
+    <h3 class="profile-name" style="padding-bottom: 19px;margin-top: 4px;">{{ current_user.firstname }} {{ current_user.lastname }}</h3>
+    <p class="profile-bio" style="margin-top: 26px;padding-right: 100px;margin-left: 100px;margin-right: 50px;">{{ current_user.BIO }}  biojkbsgvudi ohsnfdihonfdcvcih klbiojk bsgvudiohsnf dihonfdcv cihklsbiojk  bsgvudio hsnfdihonfd cvcihkls jndfcvi hlkjnsedfjnd fcvihlk jnsedfsj ndfcvihlk jnsedf</p>
+    <ul class="social-list">
+        <li> <i class="fa fa-facebook-official"></i></li>
+        <li> <i class="fa fa-twitter-square"></i></li>
+        <li> <i class="fa fa-linkedin-square"></i></li>
+    </ul>
+</div>
+<div class="card shadow">
+    <div class="card-header py-3">
+        <p class="text-primary m-0 fw-bold">Contact Details</p>
+    </div>
+    <div class="card-body">
         <br>
+        <div class="col">
+            <div class="mb-3"><label class="form-label" ><strong>Email:  </strong> {{ current_user.email }}</label></div>
+            <br>
+        </div><div class="col">
+            <div class="mb-3"><label class="form-label" ><strong>Phone number:   </strong>{{ current_user.phone_number }}</label></div>
+        </div>
+    </div>
+</div>
+<div class="col-12 py-3">
+    <a href="/edit_profile"><button class="glow-on-hover" type="button" >Edit profile</button></a>
+    <a href="/add_technology"><button class="glow-on-hover" type="button" >Add Technology</button></a>
+    <a href="/user_technology"><button class="glow-on-hover" type="button" >Your Technology 3</button></a>
+    <div class="btn-group"></div>
+</div>
 
-        <h2>Projects:</h2>
+<div class="card shadow">
+    <div class="card-header py-3">
+        <p class="text-primary m-0 fw-bold"> Department</p>
+    </div>
+    <div class="card-body">
+        <h2> {{ user_department.name }}</h2>
+    </div>
+</div>
+<br>
+<div class="card shadow">
+    <div class="card-header py-3">
+        <p class="text-primary m-0 fw-bold"> Projects</p>
+    </div>
+    <div class="card-body">
         <ul>
             {% for project in user_projects %}
             <a href="/project/{{ project.id }}">
                 <li href="/project/{{ project.id }}">{{ project.name }}</li>
             </a>
             {% endfor %}
-        </ul>
-
-        <a href="/edit_profile">
-            <h3>Edit profile</h3>
-        </a>
-        <a href="/add_technology">
-            <h3>Add Technology</h3>
-        </a>
-        <a href="/user_technology">
-            <h3>Your Technology</h3>
-        </a>
-
+        </ul>        
     </div>
 </div>
+
     
 {% endblock %}

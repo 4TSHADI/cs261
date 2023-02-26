@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../static/assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../static/assets/css/Profile-Card.css">
     <link rel="stylesheet" href="../static/assets/css/untitled.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     {% endblock %}
 </head>
 </div>
@@ -31,12 +32,12 @@
                     </a>
                     <hr class="sidebar-divider my-0">
                     <ul class="navbar-nav text-light" id="accordionSidebar">
-                        <li class="nav-item"><a class="nav-link active" href="index.html"><i
-                                    class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                        <!-- <li class="nav-item"><a class="nav-link active" href="dashboard"><i
+                                    class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li> -->
                         <li class="nav-item"><a class="nav-link" href="home"><i
                                     class="fas fa-user"></i><span>Home</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="dashboard"><i
-                                    class="fas fa-user"></i><span>Profile</span></a></li>
+                                    class="fas fa-user"></i><span>Dashboard</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="projects"><i
                                     class="fas fa-table"></i><span>Projects</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="user_technology"><i
@@ -91,7 +92,7 @@
                             <h3 class="text-dark mb-0">{% block title%}{% endblock %}</h3>
                         </div>
 
-                        <div id="mainContent" class="center card">
+                        <div id="mainContent" class="center-card">
                             {% if current_user.is_authenticated %}
                             <h1>Hello {{ current_user.username }}</h1>
                             {% endif %}

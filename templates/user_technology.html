@@ -1,5 +1,5 @@
 {% extends"base.html" %}
-{% block title%}Add Technology{% endblock %}
+{% block title%}{% endblock %}
 
 {% block head %}
 {{super()}}
@@ -14,7 +14,7 @@
 {% block main%}
 {{super()}}
 
-<h1>Your Technologies</h1>
+<h2>Your Technologies</h2>
 
 <div class="formContainer">
     <form id="add_technology_form" action="/user_technology" method="POST">

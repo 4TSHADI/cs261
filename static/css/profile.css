@@ -3,3 +3,8 @@
     margin: auto;
     height: 700px;
 }
+
+.card-body {
+
+    color: var(--bs-card-color)
+}
