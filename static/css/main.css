@@ -66,6 +66,11 @@ body {
     width: 33%;
 }
 
+.noLinkHighlight {
+    text-decoration: None;
+    color: black;
+}
+
 #header {
     align-items: right;
     margin: 20px 5%;

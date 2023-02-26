@@ -99,6 +99,7 @@ class Project(db.Model):
     budget = db.Column(db.Float, nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
     is_completed = db.Column(db.Boolean, nullable=False)
+    scope = db.Column(db.Integer, nullable=False)
 
     technologies = db.relationship('ProjectTechnology', backref='project')
     expenses = db.relationship('Expense', backref='project', lazy=True)
@@ -108,12 +109,13 @@ class Project(db.Model):
     team_member_surveys = db.relationship('TeamMemberSurvey', backref='project', lazy=True)
     user_project_relations = db.relationship('UserProjectRelation', backref='project', lazy=True)
 
-    def __init__(self, name, manager_id, budget, deadline, is_completed):
+    def __init__(self, name, manager_id, budget, deadline, is_completed, scope):
         self.name = name
         self.manager_id = manager_id
         self.budget = budget
         self.deadline = deadline
         self.is_completed = is_completed
+        self.scope = scope
 
 
 class Expense(db.Model):
@@ -244,10 +246,10 @@ def dbinit():
     # Find the id of the user Bob
     # bob_id = User.query.filter_by(username="Bob").first().id
     project_list = [
-        Project("Project A", 1, 100000, func.now(), False),
-        Project("Project B", 2, 10, func.now(), False),
-        Project("Project C", 2, 999, func.now(), False),
-        Project("Project D", 1, 4568, func.now(), False),
+        Project("Project A", 1, 100000, func.now(), False, 2),
+        Project("Project B", 2, 10, func.now(), False, 4),
+        Project("Project C", 2, 999, func.now(), False, -2),
+        Project("Project D", 1, 4568, func.now(), False, -5),
     ]
     db.session.add_all(project_list)
 

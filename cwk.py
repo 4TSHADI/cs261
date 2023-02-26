@@ -151,7 +151,7 @@ def expenses():
         date = request.form.get("expDate")
 
         # carry out length checking in JS
-        # REMOVE HARDCODED VALUES
+        # TODO: REMOVE HARDCODED VALUES
         try: 
             projectID = 1 # hardcoded for now - need to pass actual pid in
             userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=1).first().role
@@ -179,7 +179,7 @@ def milestones():
         date = request.form.get("milDate")
 
         # carry out length checking in JS
-        # REMOVE HARDCODED VALUES
+        # TODO: REMOVE HARDCODED VALUES
         #try: 
         projectID = 1 # hardcoded for now - need to pass actual pid in
         userRole = UserProjectRelation.query.filter_by(user_id=8, project_id=projectID).first().role
@@ -412,7 +412,79 @@ def survey():
 
         return redirect("/")
     if existing_survey:
-        print("HELLOLOFEJFOEJFOJE")
+        # print("HELLOLOFEJFOEJFOJE")
         return render_template("survey_not_available.html", next_monday=next_monday)
     else:
         return render_template('survey.html', project_id=project_id)
+
+
+@app.route("/projects", methods=["GET"])
+@login_required
+def projects():
+    if request.method == "GET":
+        # Get user projects
+        # TODO: Order by deadline date
+        user_projects = db.session.query(Project).join(UserProjectRelation)\
+            .filter(Project.id == UserProjectRelation.project_id, UserProjectRelation.user_id == current_user.id).all()
+
+        managers_db = db.session.query(User, Project).join(Project)\
+            .filter(User.id == Project.manager_id).all()
+        
+        managers = {}
+        for user, project in managers_db:
+            managers[str(project.id)] = user.username
+
+        return render_template("projects.html", user_projects=user_projects, managers=managers)
+
+@app.route("/new_project", methods=["GET", "POST"])
+@login_required
+def new_project():
+    if request.method == "POST":
+        # TODO
+        # Get form fields
+        name = escape(request.form.get("name"))
+        budget = request.form.get("budget")
+        deadline = datetime.strptime(request.form.get("deadline"), "%Y-%m-%d")
+        is_complete = True if request.form.get("is_complete") == "True" else False
+        scope = request.form.get("scope")
+
+        # create new project in database        
+        try:
+            new_project = Project(name, current_user.id, budget, deadline, is_complete, scope)
+            db.session.add(new_project)
+            db.session.commit()
+
+            # Add user project relation for the manager
+            projectManagerRelation = UserProjectRelation(current_user.id, new_project.id, True, "Project Manager")
+            db.session.add(projectManagerRelation)
+            db.session.commit()
+        except Exception as e:
+            print("Error creating project")
+            print(e)
+            flash("Unable to create project")
+            return redirect("/projects")
+
+        # Project successfully created.
+        print("Project created")
+        ahp_exists = True # TODO: check if ahp survey is already done for this.
+
+        if ahp_exists:
+            flash("Project created", "message")
+            return redirect("/projects")
+        else:
+            flash("Please complete the AHP survey", "message")
+            return redirect("/ahp_survey") # TODO: might need to change this route
+
+    
+    elif request.method == "GET":
+
+        return render_template("new_project.html")
+
+
+@app.route("/project/<id>", methods=["GET"])
+@login_required
+def project(id):
+    # TODO: check user is authorised to see project and get their access level.
+    # render different templates/pass diff data depending on role.
+
+    return render_template("project.html", id=id)
