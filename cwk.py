@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import security
 from werkzeug.utils import secure_filename
 from markupsafe import escape
-from flask import Flask, Response, make_response, render_template, render_template_string, request, redirect, flash, send_file
+from flask import Flask, Response, make_response, render_template, render_template_string, request, redirect, flash, send_file, jsonify
 from sqlalchemy import desc
 from datetime import datetime, timedelta
 import os
@@ -197,6 +197,9 @@ def milestones():
 @app.route("/ahp", methods=["GET", "POST"])
 # @login_required
 def ahp():
+    # matrix = request.form.get("matrixOfResults")
+    # flash('Variable received: {}'.format(matrix))
+    #return jsonify({'message': 'success', 'flash_message': get_flashed_messages()})
     return render_template("ahp.html")
 
 @app.route("/profile")

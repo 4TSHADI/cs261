@@ -145,6 +145,12 @@ const questions = [
 
 nextQuestion(false);
 
+function flash(message, type) {
+    let messageBox = $("#messageBox");
+
+    messageBox.append("<div class=\"flashedMessage "+type+"\">" + message + "</div>");
+}
+
 prevBtn.addEventListener("click", () => {
     if (questionNum > 0) {
         questionNum--;
@@ -163,8 +169,24 @@ function nextQuestion(buttonPressed) {
 
 function selectAnswer(e) {
 
-    if (questions.length <= questionNum) {
-        window.location.href = "/profile";
+    if (questionNum >= questions.length) {
+        $.ajax({
+            type: "POST",
+            url: "/login", // NEED TO CHANGE TO URL ENDPOINT
+            data: {matrixOfResults:matrix},
+            success: function(response) { // handle the response from the server
+                flash("Submitting questionnaire results...","success");
+                setTimeout(function () {
+                    window.location.href = "/profile"; // redirect to profile page
+                 }, 2000); // runs function after 2 sec delay              
+            },
+            error: function(xhr, status, error) {
+                flash("Error in submitting questionnaire results. Please try again.","error");
+                setTimeout(function () {
+                    window.location.href = "/ahp"; // redirect to profile page
+                 }, 2000); // runs function after 2 sec delay  
+            }
+         });
     }
 }
 
@@ -219,10 +241,10 @@ function populateMatrix(ans1, ans2, chosenAns) {
 
 
 
-    for (var row = 0; row < matrix.length; row++) {
-        console.log(matrix[row]);
-    }
-    console.log("------------------------------------------");
+    // for (var row = 0; row < matrix.length; row++) {
+    //     console.log(matrix[row]);
+    // }
+    // console.log("------------------------------------------");
 }
 
 function undoMatrix() {
