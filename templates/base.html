@@ -3,6 +3,8 @@
 
 <head>
     {% block head %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../static/images/logo-blue.png">
     <link rel="stylesheet" href="static/css/main.css" type="text/css" charset="utf-8">
     <script src="static/js/jquery-3.6.0.min.js"></script>
@@ -14,6 +16,8 @@
     <link rel="stylesheet" href="../static/assets/css/Profile-Card.css">
     <link rel="stylesheet" href="../static/assets/css/untitled.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+
     {% endblock %}
 </head>
 </div>
@@ -27,7 +31,7 @@
                 <div class="container-fluid d-flex flex-column p-0">
                     <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
                         href="profile">
-                        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+                        <div class="sidebar-brand-icon "><i class="fas fa-user"></i></div>
                         <div class="sidebar-brand-text mx-3"><span>Profile</span></div>
                     </a>
                     <hr class="sidebar-divider my-0">
@@ -35,15 +39,17 @@
                         <!-- <li class="nav-item"><a class="nav-link active" href="dashboard"><i
                                     class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li> -->
                         <li class="nav-item"><a class="nav-link" href="home"><i
-                                    class="fas fa-user"></i><span>Home</span></a></li>
+                                    class="fas fa-home"></i><span>Home</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="dashboard"><i
-                                    class="fas fa-user"></i><span>Dashboard</span></a></li>
+                                    class="fas fa-dashboard"></i><span>Dashboard</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="projects"><i
-                                    class="fas fa-table"></i><span>Projects</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="user_technology"><i
-                                    class="fas fa-table"></i><span>My Technologies</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="survey"><i
-                                    class="fas fa-table"></i><span>Survey</span></a></li>
+                                    class="fas fa-group"></i><span>Projects</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="user_technology"><i
+                                        class="fas fa-cogs"></i><span>My Technologies</span></a></li>
+                                        <li class="nav-item"><a class="nav-link" href="add_technology"><i
+                                            class="fas fa-cog"></i><span>Add Technology</span></a></li>
+                                <li class="nav-item"><a class="nav-link" href="survey"><i
+                                    class="fas fa-pencil-square-o"></i><span>Survey</span></a></li>
                     </ul>
                     <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
                             id="sidebarToggle" type="button"></button></div>

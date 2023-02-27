@@ -3,8 +3,12 @@
     margin: auto;
     height: 700px;
 }
-
 .card-body {
-
-    color: var(--bs-card-color)
+color: #858796;
+}
+.form-label{
+    color: #2fe5b2;
+}
+.btn-primary{
+    background-color: #2fe5b2;
 }
