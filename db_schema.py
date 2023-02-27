@@ -97,23 +97,37 @@ class Project(db.Model):
     name = db.Column(db.String(80), nullable=False)
     manager_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     budget = db.Column(db.Float, nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
+    scope = db.Column(db.Float, nullable=False)
     is_completed = db.Column(db.Boolean, nullable=False)
+
+    pred = db.Column(db.Boolean, nullable=True, default=None) # ml outputs
+    accuracy = db.Column(db.Float, nullable=True, default=None)
+    s1 = db.Column(db.Text(), nullable=True, default=None)
+    s2 = db.Column(db.Text(), nullable=True, default=None)
+    s3 = db.Column(db.Text(), nullable=True, default=None)
 
     technologies = db.relationship('ProjectTechnology', backref='project')
     expenses = db.relationship('Expense', backref='project', lazy=True)
-    suggestions = db.relationship('Suggestion', backref='project', lazy=True)
     milestones = db.relationship('ProjectMilestone', backref='project', lazy=True)
     manager_surveys = db.relationship('ProjectManagerSurvey', backref='project', lazy=True)
     team_member_surveys = db.relationship('TeamMemberSurvey', backref='project', lazy=True)
     user_project_relations = db.relationship('UserProjectRelation', backref='project', lazy=True)
 
-    def __init__(self, name, manager_id, budget, deadline, is_completed):
+    def __init__(self, name, manager_id, budget, start_date, deadline, scope, is_completed):
         self.name = name
         self.manager_id = manager_id
         self.budget = budget
+        self.start_date = start_date
         self.deadline = deadline
+        self.scope = scope
         self.is_completed = is_completed
+        self.pred = None
+        self.accuracy = None
+        self.s1 = None
+        self.s2 = None
+        self.s3 = None
 
 
 class Expense(db.Model):
@@ -132,18 +146,6 @@ class Expense(db.Model):
         self.description = description
         self.amount = amount
         self.timestamp = timestamp
-
-class Suggestion(db.Model):
-    __tablename__ = "suggestion"
-    id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    description = db.Column(db.Text(), nullable=False)
-    is_implemented = db.Column(db.Boolean, nullable=False)
-
-    def __init__(self, project_id, description, is_implemented):
-        self.project_id = project_id
-        self.description = description
-        self.is_implemented = is_implemented
 
 class ProjectMilestone(db.Model):
     __tablename__ = "project_milestone"
@@ -244,10 +246,10 @@ def dbinit():
     # Find the id of the user Bob
     # bob_id = User.query.filter_by(username="Bob").first().id
     project_list = [
-        Project("Project A", 1, 100000, func.now(), False),
-        Project("Project B", 2, 10, func.now(), False),
-        Project("Project C", 2, 999, func.now(), False),
-        Project("Project D", 1, 4568, func.now(), False),
+        Project("Project A", 1, 100000, func.now(), func.now(), 1, False),
+        Project("Project B", 2, 10, func.now(), func.now(), 1, False),
+        Project("Project C", 2, 999, func.now(), func.now(), 1, False),
+        Project("Project D", 1, 4568, func.now(), func.now(), 1, False),
     ]
     db.session.add_all(project_list)
 
@@ -289,3 +291,19 @@ def dbinit():
     # Commit all the changes to the database file.
     db.session.commit()
 
+# ml stuff
+def get_ml_data():
+    result = []
+    projects = Project.query.filter_by(is_completed=True).all()
+    for project in projects:
+        id = project.id
+        num_members = UserProjectRelation.query.filter_by(project_id=project.id).count()
+        exp_mean = TeamMemberSurvey.query.with_entities(func.avg(TeamMemberSurvey.experience)).filter_by(project_id=project.id).scalar()
+        work_env_mean = TeamMemberSurvey.query.with_entities(func.avg(TeamMemberSurvey.working_environment)).filter_by(project_id=project.id).scalar()
+        scope = project.scope
+        budget = project.budget
+        dline = project.deadline - project.start_date
+        hours_mean = TeamMemberSurvey.query.with_entities(func.avg(TeamMemberSurvey.hours_worked)).filter_by(project_id=project.id).scalar()
+        comm = UserProjectRelation.query.with_entities(func.avg(UserProjectRelation.communication)).filter_by(project_id=project.id).scalar()
+        result.append([id, num_members, exp_mean, work_env_mean, scope, budget, dline, hours_mean, comm])
+    return result
