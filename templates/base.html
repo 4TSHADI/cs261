@@ -18,13 +18,14 @@
             <img id="logo" src="../static/images/logo-blue.png" alt="Logo">
                     
             {% if current_user.is_authenticated %}
-                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/logout'">Logout</button>
                 <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/profile'">Profile</button>
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/expenses'">Expenses</button>
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/milestones'">Milestones</button>
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/logout'">Logout</button>
             {% else %}
                 <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/register'">Register</button>
                 <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/login'">Login</button>
-                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/expenses'">Expenses</button>
-                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/milestones'">Milestones</button>
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/ahp'">AHP Survey</button>
             {% endif %}
 
             {% endblock%}
@@ -43,9 +44,9 @@
         </div>
         
         <div id="mainContent" class="center card">
-            {% if current_user.is_authenticated %}
+            <!-- {% if current_user.is_authenticated %}
                 <h1>Hello {{ current_user.username }}</h1>
-            {% endif %}
+            {% endif %} -->
 
             {% block main %}
             
