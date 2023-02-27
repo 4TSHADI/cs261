@@ -447,10 +447,12 @@ def new_project():
         deadline = datetime.strptime(request.form.get("deadline"), "%Y-%m-%d")
         is_complete = True if request.form.get("is_complete") == "True" else False
         scope = request.form.get("scope")
+        repo_url = request.form.get("github_repo")
+        repo_access_token = request.form.get("gh_repo_token")
 
-        # create new project in database        
+        # create new project in database
         try:
-            new_project = Project(name, current_user.id, budget, deadline, is_complete, scope)
+            new_project = Project(name, current_user.id, budget, deadline, is_complete, scope, repo_url, repo_access_token)
             db.session.add(new_project)
             db.session.commit()
 
