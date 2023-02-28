@@ -499,16 +499,18 @@ def project(id):
     
     is_manager = True if current_user.id == project_details.manager_id else False
 
+    project_members = db.session.query(User).join(UserProjectRelation).filter(User.id == UserProjectRelation.user_id, UserProjectRelation.project_id == id).all()
+
     # render different templates/pass diff data depending on role.
     if is_manager:
         # TODO: render template with all details.
         # print("MANAGER")
-        return render_template("project.html", project=project_details)
+        return render_template("project.html", project=project_details, project_members=project_members)
     
     else:
         # TODO: render template with just the info users can see
         # print("USER")
-        return render_template("project.html", project=project_details)
+        return render_template("project.html", project=project_details, project_members=project_members)
 
 
 @app.route("/project_technology/<project_id>", methods=["GET", "POST"])
@@ -555,7 +557,6 @@ def project_technology(project_id):
         return redirect("/project/" + project_id)
 
     elif request.method == "GET":
-        # TODO: test
         # Get list of all technologies and whether they are used in the projected or not.
         technologies = db.session.query(Technology).all()
 
@@ -571,8 +572,56 @@ def project_technology(project_id):
         return render_template("project_technology.html", project = project_details, technologies = technology_list)
 
 
+@app.route("/add_user/<project_id>", methods=["GET", "POST"])
+@login_required
+def project_users(project_id):
+    # check project ID exists
+    projects = db.session.query(Project).all()
+    project_ids = [str(p.id) for p in projects]
+
+    if project_id not in project_ids:
+        print("Invalid project ID")
+        flash("Invalid project ID")
+        return redirect("/projects")
+
+    # Check if user is PM for the given project
+    project_details = db.session.query(Project).filter(Project.id == project_id).first()
+    is_manager = True if current_user.id == project_details.manager_id else False
+    if not is_manager:
+        print("User not authorised to add users to this project")
+        flash("User not authorised to add users to this project")
+        return redirect("/projects")
+
+    if request.method == "POST":
+        # Get username and details entered in form, add UPR entry for them.
+        new_username = escape(request.form.get("username"))
+        new_role = escape(request.form.get("role"))
+
+        # Check username exists.
+        user_details = db.session.query(User).filter(User.username == new_username).first()
+        if user_details is None:
+            print("User doesn't exist")
+            flash("User doesn't exist", "message")
+            return redirect("/add_user/" + project_id)
+        
+        # Create new UserProjectRelation entry for the new user
+        new_entry = UserProjectRelation(user_details.id, project_id, False, new_role)
+        db.session.add(new_entry)
+        db.session.commit()
+        print("User added to project")
+        flash("User added to project", "message")
+
+        return redirect("/project/" + project_id)
+    
+    elif request.method == "GET":
+
+        return render_template("project_users.html", project=project_details)
+
+
+
+
 # TODO
-# add users to project page.
 # edit project details page.
 # Way to mark a project as complete.
 # List technologies on project page.
+# Force user to take AHP survey after creating project.

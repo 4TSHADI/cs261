@@ -138,6 +138,10 @@ body {
     background-color: rgb(149, 231, 141);
 }
 
+.message {
+    background-color: rgb(162, 201, 230);
+}
+
 .alignBottom {
     position: absolute;
     bottom: 5px;

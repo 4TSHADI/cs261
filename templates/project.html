@@ -24,11 +24,19 @@
         - team members 
         - etc.
         -->
+        <h2>Team Members</h2>
+        <ul>
+            {% for user in project_members %}
+            <li>{{user.username}}</li>
+            {% endfor %}
+        </ul>
+
+
     </div>
 
     <div>
         <a href="/edit_project/{{project.id}}"><h3>Edit Project</h3></a>
-        <a href="/add_users/{{project.id}}"><h3>Add Users</h3></a>
+        <a href="/add_user/{{project.id}}"><h3>Add Users</h3></a>
         <a href="/project_technology/{{project.id}}"><h3>Add Technologies</h3></a>
     </div>
 </div>

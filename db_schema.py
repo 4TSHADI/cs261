@@ -261,6 +261,7 @@ def dbinit():
         UserProjectRelation(1, 1, False, "Software Engineer"),
         UserProjectRelation(1, 2, True, "Project Manager"),
         UserProjectRelation(1, 3, False, "Software Engineer"),
+        UserProjectRelation(2, 3, True, "Project Manager"),
         UserProjectRelation(2, 1, True, "Project Manager"),
         UserProjectRelation(2, 2, False, "Software Engineer")
     ]
