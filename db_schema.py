@@ -102,6 +102,8 @@ class Project(db.Model):
     scope = db.Column(db.Float, nullable=False)
     is_completed = db.Column(db.Boolean, nullable=False)
 
+    is_success = db.Column(db.Boolean, nullable=True)
+
     pred = db.Column(db.Boolean, nullable=True, default=None) # ml outputs
     accuracy = db.Column(db.Float, nullable=True, default=None)
     s1 = db.Column(db.Text(), nullable=True, default=None)
@@ -128,6 +130,7 @@ class Project(db.Model):
         self.s1 = None
         self.s2 = None
         self.s3 = None
+        self.is_success = None
 
 
 class Expense(db.Model):
@@ -238,7 +241,47 @@ class Currency(db.Model):
 def dbinit():
     user_list = [ # TODO: change this to be dummy data for the new user schema
         User("Mike18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7)
+        User("Bob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mike1", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tedxwdrarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.csdom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mik18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tcvbedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bo24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwicyk.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mke18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@etedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("ob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwidck.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike18", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarwicdfk.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob243", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.cosrthm", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Miergke128", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tstredxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob24e4", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwick.csrthom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike1beb8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarwsrthick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2sgb43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.srthcom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Msgbike128", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tedxsrtwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2sbgss44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwickrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike1rtsr8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwasrthrwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2ndgn43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwicksrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mike12fgnd8", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tedshsrtxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bobdfgn244", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwicts34k.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike1dfgn8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarsdsdfwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2ghng43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.cdfom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mike1mfm28", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@aergtedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2dry44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarergwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike1rth8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarwasick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob24gg3", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.cgaerom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mike12dty8", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tedxawefwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2tdymty44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwsergicfawek.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Msgbikawefe128", security.generate_password_hash("password"), "Michael", "Cooper", "mibchxdfael@tedxsrtwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2ssvdabgss44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxw4twarwickrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike1rzvsdvtsr8", security.generate_password_hash("password"), "Michael", "Cooper", "michastredl@tedxwasrthrwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2nSDvdgn43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwsrthxarwicksrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mike1svz2fgnd8", security.generate_password_hash("password"), "Michael", "Cooper", "mibcsrthhael@tedshsrtxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("B43tsobdfdgn244", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tsrthedxwarwicts34k.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike1dstesfgn8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedsrthl@tedxwarsdsdfwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2sergghng43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwstrhxarwick.cdfom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mike1snmfm28", security.generate_password_hash("password"), "Michael", "Cooper", "mibchaelsrth@aergtedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2dsgfry44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarersrtgwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("ike1srthrth8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedrthl@tedxwarwasick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bobstrh24gg3", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxsrthbarwick.cgaerom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
+        User("Mikesthb12dty8", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@terthdxawefwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
+        User("Bob2tstdymty44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwicfasrthswek.com", "07732645287", 2, "en", "GMT+0", "£", True, 7)
     ]
     
     db.session.add_all(user_list)
