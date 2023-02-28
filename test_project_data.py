@@ -24,7 +24,8 @@ for i in range(50):
     user = [username, password, firstname, lastname, email, phone_number, department_id, language,
                     timezone, currency, working, yearsAtCompany]
     cursor.execute('INSERT INTO user (username, password, firstname, lastname, email, phone_number, department_id, language, timezone, currency, working, yearsAtCompany) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', user) 
-
+    conn.commit()
+    
 # Generate and insert the data into the database
 for i in range(50):
     # project
