@@ -486,7 +486,93 @@ def new_project():
 @app.route("/project/<id>", methods=["GET"])
 @login_required
 def project(id):
-    # TODO: check user is authorised to see project and get their access level.
-    # render different templates/pass diff data depending on role.
+    # TODO
+    project_details = db.session.query(Project).filter(Project.id == id).first()
+    allowed_users = db.session.query(UserProjectRelation).filter(UserProjectRelation.project_id == project_details.id).all()
+    allowed_user_id = [row.user_id for row in allowed_users]
 
-    return render_template("project.html", id=id)
+    if current_user.id not in allowed_user_id:
+        print("User not authorise to view this project.")
+        flash("Not authorised to view this project", "message")
+        return redirect("/projects")
+
+    
+    is_manager = True if current_user.id == project_details.manager_id else False
+
+    # render different templates/pass diff data depending on role.
+    if is_manager:
+        # TODO: render template with all details.
+        # print("MANAGER")
+        return render_template("project.html", project=project_details)
+    
+    else:
+        # TODO: render template with just the info users can see
+        # print("USER")
+        return render_template("project.html", project=project_details)
+
+
+@app.route("/project_technology/<project_id>", methods=["GET", "POST"])
+@login_required
+def project_technology(project_id):
+    # check project ID exists.
+    projects = db.session.query(Project).all()
+    project_ids = [str(p.id) for p in projects]
+
+    if project_id not in project_ids:
+        print("Invalid project ID")
+        flash("Invalid project ID")
+        return redirect("/projects")
+    
+    # Check user is PM for the given project
+    project_details = db.session.query(Project).filter(Project.id == project_id).first()
+    is_manager = True if current_user.id == project_details.manager_id else False
+    if not is_manager:
+        print("User not authorised to add technologies for this project")
+        flash("User not authorised to add technologies for this project")
+        return redirect("/projects")
+    
+    if request.method == "POST":
+        # TODO: TESTING
+        # Get list of technologies checked and store them in database.
+        technologies = db.session.query(Technology).all()
+        technology_list = [{"id": tech.id, "is_used": request.form.get(str(tech.id))} for tech in technologies]
+        # print(technology_list)
+
+        for tech in technology_list:
+            # check if entry exists in database for this project-tech pair
+            row = db.session.query(ProjectTechnology).filter(ProjectTechnology.technology_id == tech["id"], ProjectTechnology.project_id == project_id).first()
+
+            if row is None: # Entry doesn't already exist. Add entry if tech.is_used is "True"
+                if tech["is_used"] == "True":
+                    new_row = ProjectTechnology(project_id, tech["id"])
+                    db.session.add(new_row)
+            elif row is not None: # Entry already exists, remove if tech.is_used is "False"
+                if tech["is_used"] == None:
+                    db.session.delete(row)
+            
+        db.session.commit()
+
+        return redirect("/project/" + project_id)
+
+    elif request.method == "GET":
+        # TODO: test
+        # Get list of all technologies and whether they are used in the projected or not.
+        technologies = db.session.query(Technology).all()
+
+        technology_list = []
+        for technology in technologies:
+            row = db.session.query(ProjectTechnology).filter(ProjectTechnology.project_id == project_id, ProjectTechnology.technology_id == technology.id).first()
+
+            is_used = True if row is not None else False
+            tech_data = {"id": technology.id, "name": technology.name, "is_used": is_used}
+            technology_list.append(tech_data)
+            
+        print(technology_list)
+        return render_template("project_technology.html", project = project_details, technologies = technology_list)
+
+
+# TODO
+# add users to project page.
+# edit project details page.
+# Way to mark a project as complete.
+# List technologies on project page.
