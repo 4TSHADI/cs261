@@ -13,14 +13,26 @@
 {% block main%}
 {{super()}}
 <div class="profile-card" style="padding-bottom: 0px;padding-top: 0px;margin-top: 0px;">
-    <div class="profile-back" style="margin-bottom: -73px;"></div><img class="rounded-circle profile-pic" src="../static/images/profilepic.jpg" width="150" height="150" style="margin-right: -2px;padding-right: 0px;padding-left: 0px;padding-top: 0px;padding-bottom: 0px;margin-bottom: 28px;">
-    <h3 class="profile-name" style="padding-bottom: 19px;margin-top: 4px;">{{ current_user.firstname }} {{ current_user.lastname }}</h3>
-    <p class="profile-bio" style="margin-top: 26px;padding-right: 100px;margin-left: 100px;margin-right: 50px;">{{ current_user.BIO }}  biojkbsgvudi ohsnfdihonfdcvcih klbiojk bsgvudiohsnf dihonfdcv cihklsbiojk  bsgvudio hsnfdihonfd cvcihkls jndfcvi hlkjnsedfjnd fcvihlk jnsedfsj ndfcvihlk jnsedf</p>
+    <div class="profile-back" style="margin-bottom: -73px;"></div><img class="rounded-circle profile-pic"
+        src="../static/images/profilepic.jpg" width="150" height="150"
+        style="margin-right: -2px;padding-right: 0px;padding-left: 0px;padding-top: 0px;padding-bottom: 0px;margin-bottom: 28px;">
+    <h3 class="profile-name" style="padding-bottom: 19px;margin-top: 8px;text-transform:uppercase;">{{ current_user.firstname }} {{
+        current_user.lastname }}</h3>
+    <p class="profile-bio" style="margin-top: 26px;padding-right: 100px;margin-left: 100px;margin-right: 50px;">{{
+        current_user.BIO }} biojkbsgvudi ohsnfdihonfdcvcih klbiojk bsgvudiohsnf dihonfdcv cihklsbiojk bsgvudio
+        hsnfdihonfd cvcihkls jndfcvi hlkjnsedfjnd fcvihlk jnsedfsj ndfcvihlk jnsedf</p>
     <ul class="social-list">
         <li> <i class="fa fa-facebook-official"></i></li>
         <li> <i class="fa fa-twitter-square"></i></li>
         <li> <i class="fa fa-linkedin-square"></i></li>
     </ul>
+
+    <div class="col-12 py-3">
+        <a href="/edit_profile"><button class="glow-on-hover" type="button">Edit profile</button></a>
+        <a href="/add_technology"><button class="glow-on-hover" type="button">Add Technology</button></a>
+        <a href="/user_technology"><button class="glow-on-hover" type="button">Your Technology 3</button></a>
+        <div class="btn-group"></div>
+    </div>
 </div>
 <div class="card shadow">
     <div class="card-header py-3">
@@ -29,20 +41,15 @@
     <div class="card-body">
         <br>
         <div class="col">
-            <div class="mb-3"><label class="form-label" ><strong>Email:  </strong> {{ current_user.email }}</label></div>
+            <div class="mb-3"><label class="form-label"><strong>Email: </strong> {{ current_user.email }}</label></div>
             <br>
-        </div><div class="col">
-            <div class="mb-3"><label class="form-label" ><strong>Phone number:   </strong>{{ current_user.phone_number }}</label></div>
+        </div>
+        <div class="col">
+            <div class="mb-3"><label class="form-label"><strong>Phone number: </strong>{{ current_user.phone_number
+                    }}</label></div>
         </div>
     </div>
 </div>
-<div class="col-12 py-3">
-    <a href="/edit_profile"><button class="glow-on-hover" type="button" >Edit profile</button></a>
-    <a href="/add_technology"><button class="glow-on-hover" type="button" >Add Technology</button></a>
-    <a href="/user_technology"><button class="glow-on-hover" type="button" >Your Technology 3</button></a>
-    <div class="btn-group"></div>
-</div>
-
 <div class="card shadow">
     <div class="card-header py-3">
         <p class="text-primary m-0 fw-bold"> Department</p>
@@ -63,9 +70,9 @@
                 <li href="/project/{{ project.id }}">{{ project.name }}</li>
             </a>
             {% endfor %}
-        </ul>        
+        </ul>
     </div>
 </div>
 
-    
+
 {% endblock %}
