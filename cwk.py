@@ -45,6 +45,10 @@ def load_user(username):
 def index(): 
     return render_template('home.html')
 
+@app.route('/pgbar')
+@login_required
+def pgbar(): 
+    return render_template('progressbar.html')
 
 
 @app.route("/register", methods=["POST", "GET"])

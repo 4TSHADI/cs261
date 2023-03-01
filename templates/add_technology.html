@@ -4,6 +4,7 @@
 {% block head %}
 {{super()}}
 <link rel="stylesheet" href="static/css/form.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="static/css/user_technology.css" type="text/css" charset="utf-8">
 {% endblock %}
 
 {% block header %}
@@ -13,12 +14,11 @@
 {% block main%}
 {{super()}}
 
-<h1>Add Technology</h1>
 
 <div class="formContainer">
     <form id="add_technology_form" action="/add_technology" method="POST">
         <div class="formRowContainer">
-            <label class="formlabel" for="technology">Technology:</label><br>
+            <label class="formlabel" for="technology">Add a Technology:</label><br>
             <input class="textInput" type="text" name="technology" id="technology" required>
         </div>
 
