@@ -324,7 +324,7 @@ def add_technology():
             new_technology = Technology(technology)
             db.session.add(new_technology)
             db.session.commit()
-            flash("Technology added", "info")
+            flash("Technology added", "message")
         except:
             print("Error, unable to add technology")
             flash("Unable to add technology", "error")
@@ -501,16 +501,18 @@ def project(id):
 
     project_members = db.session.query(User).join(UserProjectRelation).filter(User.id == UserProjectRelation.user_id, UserProjectRelation.project_id == id).all()
 
+    project_technologies = db.session.query(Technology).join(ProjectTechnology).filter(Technology.id == ProjectTechnology.technology_id, ProjectTechnology.project_id == id).all()
+
     # render different templates/pass diff data depending on role.
     if is_manager:
         # TODO: render template with all details.
         # print("MANAGER")
-        return render_template("project.html", project=project_details, project_members=project_members)
+        return render_template("project.html", project=project_details, project_members=project_members, project_technologies=project_technologies)
     
     else:
         # TODO: render template with just the info users can see
         # print("USER")
-        return render_template("project.html", project=project_details, project_members=project_members)
+        return render_template("project.html", project=project_details, project_members=project_members, project_technologies=project_technologies)
 
 
 @app.route("/project_technology/<project_id>", methods=["GET", "POST"])
@@ -678,7 +680,6 @@ def edit_project(project_id):
         return render_template("edit_project.html", project=project_details, project_manager=project_manager)
 
 # TODO
-# List technologies on project page.
-# Force user to take AHP survey after creating project.
+# Force user to take AHP survey after creating project - waiting on ahp stuff to be finished.
 # Go through all flash messages and add a category.
 # Add start date input to create project page
