@@ -26,7 +26,7 @@ app.config["MAX_UPLOAD_LENGTH"] = 4 * 1024 * 1024 # Set max file upload size to 
 # Database config and import
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///database.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-from db_schema import db, User, Department, UserTechnology, Technology, ProjectTechnology, Project, Expense, Suggestion, ProjectMilestone, ProjectManagerSurvey, TeamMemberSurvey, UserProjectRelation, Language, Timezone, Currency, dbinit
+from db_schema import db, User, Department, UserTechnology, Technology, ProjectTechnology, Project, Expense, ProjectMilestone, ProjectManagerSurvey, TeamMemberSurvey, UserProjectRelation, Language, Timezone, Currency, dbinit
 db.init_app(app)
 
 resetdb = True  # Change to True to reset the database with the data defined in the db_schema.py file.
