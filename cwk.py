@@ -440,7 +440,7 @@ def projects():
 @login_required
 def new_project():
     if request.method == "POST":
-        # TODO
+        # TODO alter views depending on user role
         # Get form fields
         name = escape(request.form.get("name"))
         budget = request.form.get("budget")
@@ -526,7 +526,7 @@ def project_technology(project_id):
         return redirect("/projects")
     
     # Check user is PM for the given project
-    project_details = db.session.query(Project).filter(Project.id == project_id).first()
+    project_details = db.session.query(Project).filter(Project.id == int(project_id)).first()
     is_manager = True if current_user.id == project_details.manager_id else False
     if not is_manager:
         print("User not authorised to add technologies for this project")
@@ -585,7 +585,7 @@ def project_users(project_id):
         return redirect("/projects")
 
     # Check if user is PM for the given project
-    project_details = db.session.query(Project).filter(Project.id == project_id).first()
+    project_details = db.session.query(Project).filter(Project.id == int(project_id)).first()
     is_manager = True if current_user.id == project_details.manager_id else False
     if not is_manager:
         print("User not authorised to add users to this project")
@@ -614,14 +614,71 @@ def project_users(project_id):
         return redirect("/project/" + project_id)
     
     elif request.method == "GET":
-
         return render_template("project_users.html", project=project_details)
 
 
+@app.route("/edit_project/<project_id>", methods=["GET", "POST"])
+@login_required
+def edit_project(project_id):
+    # Check project with given id exists.
+    project_details = db.session.query(Project).filter(Project.id == int(project_id)).first()
+    if project_details is None:
+        print("Project with given ID doesn't exist")
+        flash("Project with given ID doesn't exist", "error")
+        return redirect("/projects")
 
+    # Check user is PM for the project
+    is_manager = True if current_user.id == project_details.manager_id else False
+    if not is_manager:
+        print("User not authorised to edit details for this project")
+        flash("User not authorised to edit details for this project", "error")
+        return redirect("/projects")
+    
+    project_manager = User.query.get(project_details.manager_id)
+
+    if request.method == "POST":
+        # get all submitted form details
+        new_name = escape(request.form.get("name"))
+        new_budget = request.form.get("budget")
+        new_start_date = datetime.strptime(request.form.get("start_date"), "%Y-%m-%d")
+        new_deadline = datetime.strptime(request.form.get("deadline"), "%Y-%m-%d")
+        new_is_complete = True if request.form.get("is_complete") == "True" else False
+        new_scope = request.form.get("scope")
+        new_repo_url = escape(request.form.get("github_repo"))
+        new_repo_token = escape(request.form.get("gh_repo_token"))
+
+        # Check the project exists
+        check_project = Project.query.get(project_details.id)
+        if check_project is None:
+            print("Error, project doesn't exist")
+            flash("Project doesn't exist", "error")
+            return redirect("/projects")
+        
+        # Try update the values
+        try:
+            project_details.name = new_name
+            project_details.budget = new_budget
+            # project_details.start_date = new_start_date # TODO: implement in DB and uncomment
+            project_details.deadline = new_deadline
+            project_details.is_completed = new_is_complete
+            project_details.scope = new_scope
+            project_details.repo_url = new_repo_url
+            project_details.repo_token = new_repo_token
+
+            db.session.commit()
+        except Exception as e:
+            print("Error updating project details")
+            flash("Error updating project details", "error")
+            print(e)
+            return redirect("/projects")
+
+
+        return redirect("/project/" + project_id)
+    elif request.method == "GET":    
+        return render_template("edit_project.html", project=project_details, project_manager=project_manager)
 
 # TODO
-# edit project details page.
-# Way to mark a project as complete.
 # List technologies on project page.
 # Force user to take AHP survey after creating project.
+# Go through all flash messages and add a category.
+# Add start date input to create project page
