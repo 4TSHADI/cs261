@@ -1,7 +1,7 @@
 .profileContainer {
     width: max(70%, 600px);
     margin: auto;
-    height: 700px;
+    height: auto;
 }
 .card-body {
 color: #858796;
@@ -11,4 +11,5 @@ color: #858796;
 }
 .btn-primary{
     background-color: #2fe5b2;
+    height: auto;
 }

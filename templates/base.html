@@ -3,7 +3,8 @@
 
 <head>
     {% block head %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../static/images/logo-blue.png">
     <link rel="stylesheet" href="static/css/main.css" type="text/css" charset="utf-8">
@@ -22,10 +23,8 @@
 </head>
 </div>
 
-<body>
-
     <body id="page-top">
-        
+<!-- 
         <div id="wrapper">{% block setup %}
             <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
                 <div class="container-fluid d-flex flex-column p-0">
@@ -36,29 +35,29 @@
                     </a>
                     <hr class="sidebar-divider my-0">
                     <ul class="navbar-nav text-light" id="accordionSidebar">
-                        <!-- <li class="nav-item"><a class="nav-link active" href="dashboard"><i
-                                    class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li> -->
+                        
                         <li class="nav-item"><a class="nav-link" href="home"><i
                                     class="fas fa-home"></i><span>Home</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="dashboard"><i
                                     class="fas fa-dashboard"></i><span>Dashboard</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="projects"><i
                                     class="fas fa-group"></i><span>Projects</span></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="user_technology"><i
-                                        class="fas fa-cogs"></i><span>My Technologies</span></a></li>
-                                        <li class="nav-item"><a class="nav-link" href="add_technology"><i
-                                            class="fas fa-cog"></i><span>Add Technology</span></a></li>
-                                            <li class="nav-item"><a class="nav-link" href="survey"><i
-                                                class="fas fa-pencil-square-o"></i><span>Survey</span></a></li>
-                                                <li class="nav-item"><a class="nav-link" href="pgbar"><i
-                                                    class="fas fa-pencil-square-o"></i><span>Circular progress bar</span></a></li>
-                                    </ul>
+                        <li class="nav-item"><a class="nav-link" href="user_technology"><i
+                                    class="fas fa-cogs"></i><span>My Technologies</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="add_technology"><i
+                                    class="fas fa-cog"></i><span>Add Technology</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="survey"><i
+                                    class="fas fa-pencil-square-o"></i><span>Survey</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="pgbar"><i
+                                    class="fas fa-pencil-square-o"></i><span>Circular progress bar</span></a></li>
+                    </ul>
                     <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
                             id="sidebarToggle" type="button"></button></div>
                 </div>
             </nav>
-            {% endblock %}
-            <div class="d-flex flex-column" id="content-wrapper">
+            {% endblock %}</div>
+             -->
+             <div class="d-flex flex-column" id="content-wrapper">
                 <div id="content">
                     <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                         <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3"
@@ -108,36 +107,55 @@
                             {% block main %}
 
                             {% endblock %}
+
+    <!-- <head>
+        {% block head %}
+        <link rel="icon" type="image/x-icon" href="../static/images/logo-blue.png">
+        <link rel="stylesheet" href="static/css/main.css" type="text/css"charset="utf-8">
+        <script src="static/js/jquery-3.6.0.min.js"></script>
+
+        <title>{% block title%}{% endblock %}</title>
+        {% endblock %}
+    </head> -->
+
+    <body>
+
+        <div id="header" class="card">
+            {% block header %}
+            <img id="logo" src="../static/images/logo-blue.png" alt="Logo">
+                    
+            {% if current_user.is_authenticated %}
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/logout'">Logout</button>
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/profile'">Profile</button>
+            {% else %}
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/register'">Register</button>
+                <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/login'">Login</button>
+            {% endif %}
+
+            {% endblock%}
+        </div>
+
+        <div id="mainContent" class="center card">
+            {% if current_user.is_authenticated %}
+                <h1>Hello {{ current_user.username }}</h1>
+            {% endif %}
+
+            {% block main %}
+            
+            {% endblock %}
+        </div>
+
+        <div class="center" id="messageBox">
+            {% with messages = get_flashed_messages() %}  
+                {% if messages %}  
+                    {% for message in messages %}  
+                        <div class="flashedMessage">
+                            {{ message }}
                         </div>
-                    </div>
-                </div>
-                <footer class="bg-white sticky-footer">
-                    <div id="content"></div><span style="padding-left: 0px;margin-left: 284px;">Copyright © Brand
-                        2023</span>
-                </footer>
-            </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+                    {% endfor %}  
+                {% endif %}  
+            {% endwith %} 
         </div>
-        <script src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="../static/assets/js/chart.min.js"></script>
-        <script src="../static/assets/js/bs-init.js"></script>
-        <script src="../static/assets/js/theme.js"></script>
+
     </body>
-
-
-
-
-    <div class="center" id="messageBox">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="flashedMessage">
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </div>
-
-</body>
-
 </html>
