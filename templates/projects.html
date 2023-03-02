@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title%}Projects{% endblock %}
+
+{% block head %}
+{{super()}}
+{% endblock %}
+
+{% block header %}
+{{super()}}
+{% endblock %}
+
+{% block main%}
+{{super()}}
+
+<div class="">
+    <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/new_project'">New Project</button>
+    <div class="noCenter">
+
+        {% if user_projects is defined and user_projects|length > 0 %}
+            {% for project in user_projects %}
+            <div class="card color-secondary margin-medium width33">
+                <a href="/project/{{ project.id }}" class="noLinkHighlight">
+                    <div class="center">
+                        <h2>{{project.name}}</h2>
+                        <div class="noCenter margin-medium">
+                            <h3>TODO: Image of project success</h3>
+                            <h3>Deadline: {{project.deadline}}</h3>
+                            <h3>Manager: {{managers[project.id|string]}}</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+
+        {% else %}
+            <div class="center">
+                <h1>You don't have any projects!</h1>
+            </div>
+        {% endif %}
+    </div>
+</div>
+    
+{% endblock %}

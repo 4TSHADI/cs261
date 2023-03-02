@@ -101,14 +101,9 @@ class Project(db.Model):
     deadline = db.Column(db.DateTime, nullable=False)
     scope = db.Column(db.Float, nullable=False)
     is_completed = db.Column(db.Boolean, nullable=False)
-
-    is_success = db.Column(db.Boolean, nullable=True)
-
-    pred = db.Column(db.Boolean, nullable=True, default=None) # ml outputs
-    accuracy = db.Column(db.Float, nullable=True, default=None)
-    s1 = db.Column(db.Text(), nullable=True, default=None)
-    s2 = db.Column(db.Text(), nullable=True, default=None)
-    s3 = db.Column(db.Text(), nullable=True, default=None)
+    scope = db.Column(db.Integer, nullable=False)
+    repo_url = db.Column(db.Text, nullable=False)
+    repo_token = db.Column(db.Text, nullable=False)
 
     technologies = db.relationship('ProjectTechnology', backref='project')
     expenses = db.relationship('Expense', backref='project', lazy=True)
@@ -117,7 +112,7 @@ class Project(db.Model):
     team_member_surveys = db.relationship('TeamMemberSurvey', backref='project', lazy=True)
     user_project_relations = db.relationship('UserProjectRelation', backref='project', lazy=True)
 
-    def __init__(self, name, manager_id, budget, start_date, deadline, scope, is_completed):
+    def __init__(self, name, manager_id, budget, deadline, is_completed):
         self.name = name
         self.manager_id = manager_id
         self.budget = budget
@@ -125,12 +120,6 @@ class Project(db.Model):
         self.deadline = deadline
         self.scope = scope
         self.is_completed = is_completed
-        self.pred = None
-        self.accuracy = None
-        self.s1 = None
-        self.s2 = None
-        self.s3 = None
-        self.is_success = None
 
 
 class Expense(db.Model):
@@ -186,7 +175,7 @@ class TeamMemberSurvey(db.Model):
     working_environment = db.Column(db.Float, nullable=False)
     hours_worked = db.Column(db.Integer, nullable=False)
     communication = db.Column(db.Float, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, user_id, project_id, experience, working_environment, hours_worked, communication, timestamp):
         self.user_id = user_id
@@ -289,10 +278,10 @@ def dbinit():
     # Find the id of the user Bob
     # bob_id = User.query.filter_by(username="Bob").first().id
     project_list = [
-        Project("Project A", 1, 100000, func.now(), func.now(), 1, False),
-        Project("Project B", 2, 10, func.now(), func.now(), 1, False),
-        Project("Project C", 2, 999, func.now(), func.now(), 1, False),
-        Project("Project D", 1, 4568, func.now(), func.now(), 1, False),
+        Project("Project A", 1, 100000, func.now(), False),
+        Project("Project B", 2, 10, func.now(), False),
+        Project("Project C", 2, 999, func.now(), False),
+        Project("Project D", 1, 4568, func.now(), False),
     ]
     db.session.add_all(project_list)
 
@@ -300,6 +289,7 @@ def dbinit():
         UserProjectRelation(1, 1, False, "Software Engineer"),
         UserProjectRelation(1, 2, True, "Project Manager"),
         UserProjectRelation(1, 3, False, "Software Engineer"),
+        UserProjectRelation(2, 3, True, "Project Manager"),
         UserProjectRelation(2, 1, True, "Project Manager"),
         UserProjectRelation(2, 2, False, "Software Engineer")
     ]

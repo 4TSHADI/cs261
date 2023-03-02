@@ -69,6 +69,11 @@ body {
     width: 33%;
 }
 
+.noLinkHighlight {
+    text-decoration: None;
+    color: black;
+}
+
 #header {
     align-items: right;
     margin: 20px 5%;
@@ -134,6 +139,10 @@ body {
 
 .success {
     background-color: rgb(149, 231, 141);
+}
+
+.message {
+    background-color: rgb(162, 201, 230);
 }
 
 .alignBottom {

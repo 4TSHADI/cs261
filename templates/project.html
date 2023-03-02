@@ -1,0 +1,50 @@
+{% extends"base.html" %}
+{% block title%}Project{% endblock %} 
+
+{% block head %}
+{{super()}}
+{% endblock %}
+
+{% block header %}
+{{super()}}
+{% endblock %}
+
+{% block main%}
+{{super()}}
+
+<div class="">
+    <div class="noCenter">
+        <h1>Project: {{project.id}}</h1>
+        <h1>Project: {{project.name}}</h1>
+        <!-- TODO: Put the data on this page
+        - core project details
+        - milestones
+        - expenses
+        - suggestions
+        - team members 
+        - etc.
+        -->
+        <h2>Team Members</h2>
+        <ul>
+            {% for user in project_members %}
+            <li>{{user.username}}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Technologies</h2>
+        <ul>
+            {% for technology in project_technologies %}
+            <li>{{technology.name}}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <div>
+        <a href="/edit_project/{{project.id}}"><h3>Edit Project</h3></a>
+        <a href="/add_user/{{project.id}}"><h3>Add Users</h3></a>
+        <a href="/project_technology/{{project.id}}"><h3>Add Technologies</h3></a>
+    </div>
+</div>
+    
+{% endblock %}
