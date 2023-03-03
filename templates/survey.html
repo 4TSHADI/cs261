@@ -27,7 +27,7 @@
         <label for="experience">How experienced are you in the role you were assigned to last week?</label>
         <span id="experienceValue" class="sliderValue">{{ experience }}</span>
         <input type="range" name="experience" id="experience" min="1" max="5" value="{{ experience }}" required class="slider">
-        <p><span id="ex"></span></p>
+        <p class="num"><span id="ex"></span></p>
             <script>
                 var sliderex = document.getElementById("experience");
                 var outputex = document.getElementById("ex");
@@ -42,7 +42,7 @@
         <label for="working_environment">How would you rate the working environment in the past week?</label>
         <span id="workingEnvironmentValue" class="sliderValue">{{working_environment}}</span>
         <input type="range" name="working_environment" id="working_environment" min="1" max="5" value="{{working_environment}}" required class="slider">
-        <p><span id="work"></span></p>
+        <p class="num"><span id="work"></span></p>
             <script>
                 var sliderwo = document.getElementById("working_environment");
                 var outputwo = document.getElementById("work");
@@ -57,7 +57,7 @@
         <label for="hours_worked">How many hours did you work last week?</label>
         <span id="hoursWorkedValue" class="sliderValue">{{hours_worked}}</span>
         <input type="range" name="hours_worked" id="hours_worked" min="0" max="168" value="40" required class="slider">
-        <p><span id="hour"></span></p>
+        <p class="num"><span id="hour"></span></p>
         <script>
             var sliderho = document.getElementById("hours_worked");
             var outputho = document.getElementById("hour");
@@ -73,7 +73,7 @@
         <label for="communication">How effective has the communication been with the team in the past week?</label>
         <span id="communicationValue" class="sliderValue">{{communication}}</span>
         <input type="range" name="communication" id="communication" min="1" max="5" value="{{communication}}" required class="slider">
-        <p><span id="com"></span></p>
+        <p class="num"><span id="com"></span></p>
         <script>
             var sliderco = document.getElementById("communication");
             var outputco = document.getElementById("com");

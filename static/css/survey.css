@@ -20,7 +20,7 @@
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #;
+    background: #7231c8;
     cursor: pointer;
   }
   
@@ -42,6 +42,7 @@
             border-radius: 20px;
             width: fit-content;
   }
-  .p{
-    font-weight: 10px;
+  .num{
+    font-weight: bolder;
+    font-size: larger;
   }

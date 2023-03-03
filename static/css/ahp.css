@@ -14,6 +14,17 @@ body {
     align-items: center;
     justify-content: flex-start;
     z-index: 0;
+    margin-top: 0;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;margin-top: 5px;
+      padding-top: 30px;
+      border: 1px solid #0C1228;
+              /* This set radius to all 4 corners */  
+              border-radius: 20px;
+              width: fit-content;
+    
+  
   }
 
 #mainContent.card {
@@ -87,9 +98,10 @@ body {
 }
 
   #question {
-    font-size: 1.5rem;
+    font-size: 2.15rem;
     text-align: center;
-    color: white;
+    color: #b7b9cc;
+    font-weight: 900;
   }
 
    .text {
@@ -114,5 +126,3 @@ body {
     
   }
   
-
-/* #ans-btns button:last-child{flex:0 40%;} */
