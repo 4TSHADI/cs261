@@ -51,6 +51,7 @@ def load_user(username):
 
 # Routes
 @app.route('/')
+@app.route('/home')
 @login_required
 def index(): 
     return render_template('home.html')

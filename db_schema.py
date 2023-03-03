@@ -97,9 +97,7 @@ class Project(db.Model):
     name = db.Column(db.String(80), nullable=False)
     manager_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     budget = db.Column(db.Float, nullable=False)
-    start_date = db.Column(db.DateTime, nullable=False)
     deadline = db.Column(db.DateTime, nullable=False)
-    scope = db.Column(db.Float, nullable=False)
     is_completed = db.Column(db.Boolean, nullable=False)
     scope = db.Column(db.Integer, nullable=False)
     repo_url = db.Column(db.Text, nullable=False)
@@ -107,19 +105,21 @@ class Project(db.Model):
 
     technologies = db.relationship('ProjectTechnology', backref='project')
     expenses = db.relationship('Expense', backref='project', lazy=True)
+    suggestions = db.relationship('Suggestion', backref='project', lazy=True)
     milestones = db.relationship('ProjectMilestone', backref='project', lazy=True)
     manager_surveys = db.relationship('ProjectManagerSurvey', backref='project', lazy=True)
     team_member_surveys = db.relationship('TeamMemberSurvey', backref='project', lazy=True)
     user_project_relations = db.relationship('UserProjectRelation', backref='project', lazy=True)
 
-    def __init__(self, name, manager_id, budget, deadline, is_completed):
+    def __init__(self, name, manager_id, budget, deadline, is_completed, scope, repo_url, repo_token):
         self.name = name
         self.manager_id = manager_id
         self.budget = budget
-        self.start_date = start_date
         self.deadline = deadline
-        self.scope = scope
         self.is_completed = is_completed
+        self.scope = scope
+        self.repo_url = repo_url
+        self.repo_token = repo_token
 
 
 class Expense(db.Model):
@@ -138,6 +138,18 @@ class Expense(db.Model):
         self.description = description
         self.amount = amount
         self.timestamp = timestamp
+
+class Suggestion(db.Model):
+    __tablename__ = "suggestion"
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    description = db.Column(db.Text(), nullable=False)
+    is_implemented = db.Column(db.Boolean, nullable=False)
+
+    def __init__(self, project_id, description, is_implemented):
+        self.project_id = project_id
+        self.description = description
+        self.is_implemented = is_implemented
 
 class ProjectMilestone(db.Model):
     __tablename__ = "project_milestone"
@@ -175,7 +187,7 @@ class TeamMemberSurvey(db.Model):
     working_environment = db.Column(db.Float, nullable=False)
     hours_worked = db.Column(db.Integer, nullable=False)
     communication = db.Column(db.Float, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=func.now())
 
     def __init__(self, user_id, project_id, experience, working_environment, hours_worked, communication, timestamp):
         self.user_id = user_id
@@ -230,47 +242,7 @@ class Currency(db.Model):
 def dbinit():
     user_list = [ # TODO: change this to be dummy data for the new user schema
         User("Mike18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mike1", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tedxwdrarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.csdom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mik18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@tcvbedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bo24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwicyk.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mke18", security.generate_password_hash("password"), "Michael", "Cooper", "michael@etedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("ob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwidck.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike18", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarwicdfk.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob243", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.cosrthm", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Miergke128", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tstredxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob24e4", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwick.csrthom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike1beb8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarwsrthick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2sgb43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.srthcom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Msgbike128", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tedxsrtwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2sbgss44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwickrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike1rtsr8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwasrthrwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2ndgn43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwicksrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mike12fgnd8", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tedshsrtxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bobdfgn244", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwicts34k.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike1dfgn8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarsdsdfwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2ghng43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.cdfom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mike1mfm28", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@aergtedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2dry44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarergwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike1rth8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedl@tedxwarwasick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob24gg3", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxarwick.cgaerom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mike12dty8", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@tedxawefwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2tdymty44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwsergicfawek.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Msgbikawefe128", security.generate_password_hash("password"), "Michael", "Cooper", "mibchxdfael@tedxsrtwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2ssvdabgss44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxw4twarwickrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike1rzvsdvtsr8", security.generate_password_hash("password"), "Michael", "Cooper", "michastredl@tedxwasrthrwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2nSDvdgn43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwsrthxarwicksrth.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mike1svz2fgnd8", security.generate_password_hash("password"), "Michael", "Cooper", "mibcsrthhael@tedshsrtxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("B43tsobdfdgn244", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tsrthedxwarwicts34k.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike1dstesfgn8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedsrthl@tedxwarsdsdfwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2sergghng43", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwstrhxarwick.cdfom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mike1snmfm28", security.generate_password_hash("password"), "Michael", "Cooper", "mibchaelsrth@aergtedxwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2dsgfry44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarersrtgwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("ike1srthrth8", security.generate_password_hash("password"), "Michael", "Cooper", "michaedrthl@tedxwarwasick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bobstrh24gg3", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwxsrthbarwick.cgaerom", "07732645287", 2, "en", "GMT+0", "£", True, 7),
-        User("Mikesthb12dty8", security.generate_password_hash("password"), "Michael", "Cooper", "mibchael@terthdxawefwarwick.com", "07732444444", 1, "en", "GMT+0", "£", True, 7),
-        User("Bob2tstdymty44", security.generate_password_hash("password"), "Bob", "Jones", "Bofb@tedxwarwicfasrthswek.com", "07732645287", 2, "en", "GMT+0", "£", True, 7)
+        User("Bob24", security.generate_password_hash("password"), "Bob", "Jones", "Bob@tedxwarwick.com", "07732645287", 2, "en", "GMT+0", "£", True, 7)
     ]
     
     db.session.add_all(user_list)
@@ -278,10 +250,10 @@ def dbinit():
     # Find the id of the user Bob
     # bob_id = User.query.filter_by(username="Bob").first().id
     project_list = [
-        Project("Project A", 1, 100000, func.now(), False),
-        Project("Project B", 2, 10, func.now(), False),
-        Project("Project C", 2, 999, func.now(), False),
-        Project("Project D", 1, 4568, func.now(), False),
+        Project("Project A", 1, 100000, func.now(), False, 2, "www.github.com", "abcdefghijklmnop"),
+        Project("Project B", 2, 10, func.now(), False, 4, "www.github.com", "abcdefghijklmnop"),
+        Project("Project C", 2, 999, func.now(), False, -2, "www.github.com", "123456789"),
+        Project("Project D", 1, 4568, func.now(), False, -5, "www.github.com", "abcdefghijklmnop"),
     ]
     db.session.add_all(project_list)
 
@@ -323,20 +295,3 @@ def dbinit():
 
     # Commit all the changes to the database file.
     db.session.commit()
-
-# ml stuff
-def get_ml_data():
-    result = []
-    projects = Project.query.filter_by(is_completed=True).all()
-    for project in projects:
-        id = project.id
-        num_members = UserProjectRelation.query.filter_by(project_id=project.id).count()
-        exp_mean = TeamMemberSurvey.query.with_entities(func.avg(TeamMemberSurvey.experience)).filter_by(project_id=project.id).scalar()
-        work_env_mean = TeamMemberSurvey.query.with_entities(func.avg(TeamMemberSurvey.working_environment)).filter_by(project_id=project.id).scalar()
-        scope = project.scope
-        budget = project.budget
-        dline = project.deadline - project.start_date
-        hours_mean = TeamMemberSurvey.query.with_entities(func.avg(TeamMemberSurvey.hours_worked)).filter_by(project_id=project.id).scalar()
-        comm = UserProjectRelation.query.with_entities(func.avg(UserProjectRelation.communication)).filter_by(project_id=project.id).scalar()
-        result.append([id, num_members, exp_mean, work_env_mean, scope, budget, dline, hours_mean, comm])
-    return result

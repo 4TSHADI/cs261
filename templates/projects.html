@@ -3,6 +3,9 @@
 
 {% block head %}
 {{super()}}
+<link rel="stylesheet" href="static/css/projects.css" type="text/css" charset="utf-8">
+<script src="static/js/projects.js"></script>
+
 {% endblock %}
 
 {% block header %}
@@ -13,31 +16,45 @@
 {{super()}}
 
 <div class="">
-    <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/new_project'">New Project</button>
-    <div class="noCenter">
 
-        {% if user_projects is defined and user_projects|length > 0 %}
-            {% for project in user_projects %}
-            <div class="card color-secondary margin-medium width33">
-                <a href="/project/{{ project.id }}" class="noLinkHighlight">
-                    <div class="center">
-                        <h2>{{project.name}}</h2>
-                        <div class="noCenter margin-medium">
-                            <h3>TODO: Image of project success</h3>
-                            <h3>Deadline: {{project.deadline}}</h3>
-                            <h3>Manager: {{managers[project.id|string]}}</h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
-
-        {% else %}
-            <div class="center">
-                <h1>You don't have any projects!</h1>
-            </div>
-        {% endif %}
+    <div class="row mb-5">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <h2 class="fw-bold">Catalog of Projects</h2>
+            <p class="text-muted">The following inventory includes a comprehensive
+                compilation of every single project that has been undertaken,
+                completed, or is currently in progress. The button leads to a
+                visual representation of the project success and relevant data</p>
+        </div>
     </div>
+    <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/new_project'">New
+        Project</button>
+    <section class="py-5">
+        <div class="container py-5" style="padding-right: 0px;">
+            {% if user_projects is defined and user_projects|length > 0 %}
+            <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;padding-right: 0px;margin-right: -13px;">
+                {% for project in user_projects %}
+                <div class="col-lg-4 mb-4">
+                    <div><a href="/project/{{ project.id }}"><img class="rounded img-fluid shadow w-100 fit-cover"
+                                src="assets/img/products/1.jpg" style="height: 250px;"></a>
+                        <a href="/project/{{ project.id }}" class="py-4"><span class="badge bg-primary mb-2">Project
+                                Dashboard</span>
+                            <h2 class="fw-bold">{{project.name}}</h2>
+                        </a>
+                        <h4>Deadline: {{project.deadline}}</h4>
+                        <h4>Manager: {{managers[project.id|string]}}</h4>
+                        <p class="text-muted">project description</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+        </div>
+    </section>
+
+    <div class="center">
+        <h1>You don't have any projects!</h1>
+    </div>
+    {% endif %}
 </div>
-    
+
 {% endblock %}

@@ -151,3 +151,7 @@ body {
     width: calc(100% - 10px);
     text-align: center;
 }
+
+.navbar-light .navbar-nav .nav-link {
+    color: #2fe5b2;
+}

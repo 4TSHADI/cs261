@@ -17,9 +17,10 @@
 {% block main %}
     {{ super() }}
 
-    <h1>Survey</h1>
+    <h1>Weekly Project Survey</h1>
     <p>Please answer the following questions:</p>
     <body>
+      <div class="formContainer">
     <form id="surveyForm" action="/survey" method="POST">
         <input type="hidden" name="project_id" value="{{ project_id }}">
 
@@ -86,5 +87,5 @@
 
 
         <input class="btn-primary btn-primary-hover" type="submit" name="submit" id="submitbtn" value="Submit">
-    </form>
+    </form></div>
 {% endblock %}

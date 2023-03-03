@@ -20,13 +20,28 @@
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #4CAF50;
+    background: #;
     cursor: pointer;
   }
   
   .slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background: #4CAF50;
+    background: #7231c8;
     cursor: pointer;
+  }
+
+  .formContainer{
+    color: #1e223f;
+    background-color: #b7b9cc;
+    margin-top: 5px;
+    padding: 20px;
+    padding-top: 30px;
+    border: 1px solid black;
+            /* This set radius to all 4 corners */  
+            border-radius: 20px;
+            width: fit-content;
+  }
+  .p{
+    font-weight: 10px;
   }

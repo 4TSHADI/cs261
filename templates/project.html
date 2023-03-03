@@ -24,26 +24,52 @@
         - team members 
         - etc.
         -->
-        <h2>Team Members</h2>
-        <ul>
-            {% for user in project_members %}
-            <li>{{user.username}}</li>
-            {% endfor %}
-        </ul>
+        <div class="card shadow">
+        <div class="card-header py-3">
+            <p class="text-primary m-0 fw-bold">                       
+                <h4>Project Manager: </h4>
+</p></div></div>
 
-        <h2>Technologies</h2>
-        <ul>
-            {% for technology in project_technologies %}
-            <li>{{technology.name}}</li>
-            {% endfor %}
-        </ul>
+<br>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">Team Members</p>
+            </div>
+            <div class="card-body">
+                <div class="">
+                    <br>
+                    <ul>
+                        {% for user in project_members %}
+                        <li>{{user.username}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">Technologies</p>
+            </div>
+            <div class="card-body">
+                <div class="">
+                    <br>
+                    <ul>
+                        {% for technology in project_technologies %}
+                        <li>{{technology.name}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
 
     </div>
-
-    <div>
-        <a href="/edit_project/{{project.id}}"><h3>Edit Project</h3></a>
-        <a href="/add_user/{{project.id}}"><h3>Add Users</h3></a>
-        <a href="/project_technology/{{project.id}}"><h3>Add Technologies</h3></a>
+    <div class="col-12 py-3">
+        <a href="/edit_project/{{project.id}}"><button class="glow-on-hover" type="button">Edit Project</button></a>
+        <a href="/add_user/{{project.id}}"><button class="glow-on-hover" type="button">Add Users</button></a>
+        <a href="/project_technology/{{project.id}}"><button class="glow-on-hover" type="button">Add Technologies</button></a>
+        <div class="btn-group"></div>
     </div>
 </div>
     
