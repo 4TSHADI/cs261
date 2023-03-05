@@ -1,5 +1,5 @@
 {% extends"base.html" %}
-{% block title%}Project{% endblock %} 
+{% block title%}Project Dashboard{% endblock %} 
 
 {% block head %}
 {{super()}}
@@ -16,8 +16,7 @@
 
 <div class="">
     <div class="noCenter">
-        <h1>Project: {{project.id}}</h1>
-        <h1>Project: {{project.name}}</h1>
+        <h6> {{project.name}}</h6>
         <!-- TODO: Put the data on this page
         - core project details
         - milestones
@@ -29,25 +28,49 @@
         <div class="card shadow">
         <div class="card-header py-3">
             <p class="text-primary m-0 fw-bold">                       
-                <h4>Project Manager: </h4>
+                <h4>Project Manager </h4>
 </p></div></div>
 
 <br>
+<h3 class="text-dark mb-4">Progress Bar</h3>
+<div class="centering">
+<div class="progress-card">
+<!-- progressbar -->
+</div></div>
+<br>
+<h3 class="text-dark mb-4">Team</h3>
+
         <div class="card shadow">
             <div class="card-header py-3">
                 <p class="text-primary m-0 fw-bold">Team Members</p>
             </div>
-            <div class="card-body">
-                <div class="">
-                    <br>
-                    <ul>
-                        {% for user in project_members %}
-                        <li>{{user.username}}</li>
-                        {% endfor %}
-                    </ul>
+
+                <div class="card-body">
+                    <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <table class="table my-0" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Technologies</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in project_members %}
+                                <tr>
+                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar5.jpeg">{{user.username}}</td>
+                                    <td>role</td>
+                                    <td>number</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+        <br>
+
         <br>
         <div class="card shadow">
             <div class="card-header py-3">
@@ -56,11 +79,11 @@
             <div class="card-body">
                 <div class="">
                     <br>
-                    <ul>
+                    <ol>
                         {% for technology in project_technologies %}
                         <li>{{technology.name}}</li>
                         {% endfor %}
-                    </ul>
+                    </ol>
                 </div>
             </div>
         </div>

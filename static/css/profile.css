@@ -6,10 +6,50 @@
 .card-body {
 color: #858796;
 }
-.form-label{
-    color: #2fe5b2;
-}
+
 .btn-primary{
     background-color: #2fe5b2;
     height: auto;
+}
+.formLabel{
+    font-size: larger;
+    font-weight: bolder;
+    color: #fff;
+}
+.form-control{
+    height: fit-content;
+}
+.centering{
+    align-items: center;
+}
+.formRowContainer {
+    display: none;
+    width: 800px;
+    background-color: #9e88c2;
+    padding: 30px;
+    margin-right: auto;
+    margin-bottom: 100px;
+    margin-left: auto;
+    margin-top: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border: 1px solid #0C1228;
+    /* This set radius to all 4 corners */
+    border-radius: 20px;
+    /* width: fit-content; */
+
+
+}
+.form-label {
+    margin-left: 10px;
+    color: #89bb99;
+    font-weight: bold;
+    font-size: 20px;
+}.ol,
+li {
+    margin-left: 10px;
+    color: #89bb99;
+    font-weight: bold;
+    font-size: 23px;
+    text-transform: uppercase;
 }

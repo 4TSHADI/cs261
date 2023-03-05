@@ -38,10 +38,10 @@
                                 src="assets/img/products/1.jpg" style="height: 250px;" ></a>
                         <a href="/project/{{ project.id }}" class="py-4"><span class="badge bg-primary mb-2">Project
                                 Dashboard</span>
-                            <h2 class="fw-bold">{{project.name}}</h2>
+                            <h3 class="fw-bold">{{project.name}}</h3>
                         </a>
-                        <h4>Deadline:</h4><h4 class="details"> {{project.deadline}}</h4>
-                        <h4>Manager:</h4><h4 class="details"> {{managers[project.id|string]}}</h4>
+                        <h5>Deadline:</h5><h4 class="details"> {{project.deadline}}</h4>
+                        <h5>Manager:</h5><h4 class="details"> {{managers[project.id|string]}}</h4>
                     </div>
                 </div>
                 {% endfor %}

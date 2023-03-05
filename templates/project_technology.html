@@ -1,10 +1,10 @@
 {% extends"base.html" %}
-{% block title%}Add Technology{% endblock %}
+{% block title%}Technologies{% endblock %}
 
 {% block head %}
 {{super()}}
 <link rel="stylesheet" href="static/css/form.css" type="text/css" charset="utf-8">
-<link rel="stylesheet" href="static/css/user_technology.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="{{url_for('static', filename='css/user_technology.css')}}" type="text/css" charset="utf-8">
 {% endblock %}
 
 {% block header %}
@@ -14,9 +14,9 @@
 {% block main%}
 {{super()}}
 
-<h1>Your Technologies</h1>
+<h1>Project Technologies</h1>
 <button class="btn-primary btn-primary-hover" type="button" onclick="location.href='/add_technology'">Add New Technology</button>
-
+<br>
 
 <div class="formContainer">
     <form id="add_project_technology_form" action="/project_technology/{{project.id}}" method="POST">

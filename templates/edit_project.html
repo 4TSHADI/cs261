@@ -4,6 +4,7 @@
 {% block head %}
 {{super()}}
 <link rel="stylesheet" href="static/css/form.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="{{url_for('static', filename='css/projects.css')}}" type="text/css" charset="utf-8">
 {% endblock %}
 
 {% block header %}
@@ -13,14 +14,14 @@
 {% block main%}
 {{super()}}
 
-<h1>Edit Project Details</h1>
+<h2>Edit Project Details</h2>
 
 <div class="formContainer">
     <form id="edit_project_form" action="/edit_project/{{project.id}}" method="POST" enctype="multipart/form-data">
         <label class="formlabel" for="name">Name:</label><br>
         <input class="textInput" type="text" name="name" id="name" placeholder="{{project.name}}" value="{{project.name}}" title="The name of the project." required><br>
 
-        <label for="manager">Manager:</label><br>
+        <label class="formlabel" for="manager">Manager:</label><br>
         <input class="textInput" type="text" name="manager" id="manager" value="{{project_manager.username}}" title="The manager of the project" required disabled><br>
 
         <label class="formlabel" for="budget">Budget:</label><br>

@@ -31,7 +31,7 @@
     <div class="col-12 py-3">
         <a href="/edit_profile"><button class="glow-on-hover" type="button">Edit profile</button></a>
         <a href="/add_technology"><button class="glow-on-hover" type="button">Add Technology</button></a>
-        <a href="/user_technology"><button class="glow-on-hover" type="button">Your Technology 3</button></a>
+        <a href="/user_technology"><button class="glow-on-hover" type="button">Your Technologies</button></a>
         <div class="btn-group"></div>
     </div>
 </div>
@@ -69,13 +69,13 @@
             <p class="text-primary m-0 fw-bold"> Projects</p>
         </div>
         <div class="card-body">
-            <ul>
+            <ol>
                 {% for project in user_projects %}
                 <a href="/project/{{ project.id }}">
                     <li href="/project/{{ project.id }}">{{ project.name }}</li>
                 </a>
                 {% endfor %}
-            </ul>
+            </ol>
         </div>
     </div>
 

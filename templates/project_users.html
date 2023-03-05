@@ -4,6 +4,7 @@
 {% block head %}
 {{super()}}
 <link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="{{url_for('static', filename='css/user.css')}}" type="text/css" charset="utf-8">
 {% endblock %}
 
 {% block header %}
@@ -13,7 +14,7 @@
 {% block main%}
 {{super()}}
 
-<h1>Add User to {{project.name}}</h1>
+<h1>Add a new User to the {{project.name}} project</h1>
 
 <div class="formContainer">
     <form id="add_user_form" action="/add_user/{{project.id}}" method="POST">

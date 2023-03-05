@@ -2,10 +2,14 @@
     background: #1D232C;
     
 }
+.formContainer{
+    padding-top: 30px;
+}
 h1,h2,
 .h1 .h2{
      color: #f94d2f;
-}
+     padding-bottom: 10px;
+    }
 .titlestyle {
     -webkit-text-stroke:0.5px #f94d2f;
       }
@@ -45,6 +49,7 @@ h1,h2,
     text-align: center;
     background-color: #1D232C;
     color: #858796;
+    font-size: larger;
 }
 .footer-distributed {
     background-color: #1D232C;
@@ -52,10 +57,27 @@ h1,h2,
 .btn-primary {
     background-color: #f94d2f;
     color: rgb(41, 44, 47);
+    border: none;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 0 auto;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    height: 50px;
+    font-weight: bold;
+    min-width: 120px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
 }
 tbody{
     border-color: #858796;
 }
 .formlabel{
     color: #f94d2f;
+}
+
+.btn-primary-hover:hover {
+    background-color: #3d190a;
+    transition: 0.25s;
 }
